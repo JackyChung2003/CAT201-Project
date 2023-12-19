@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<!--<AnchorPane xmlns="http://javafx.com/javafx"-->
+<!--            xmlns:fx="http://javafx.com/fxml"-->
+<!--            fx:controller="com.group_22.timetablemanagement.SignUp"-->
+<!--            prefHeight="400.0" prefWidth="600.0">-->
+<!--</AnchorPane>-->
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group_22.timetablemanagement.SignUp">
+    <children>
+      <BorderPane prefHeight="480.0" prefWidth="548.0">
+         <left>
+            <AnchorPane prefHeight="480.0" prefWidth="360.0" style="-fx-background-color: #086464;" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fx:id="timeManagementIcon" fitHeight="250.0" fitWidth="250.0" layoutX="55.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Picture/Icon.jpeg" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="31.0" layoutY="324.0" text="Timetable Management System" textFill="WHITE">
+                     <font>
+                        <Font name="Segoe Script" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="14.0" layoutY="448.0" text="Copyright @ CAT201 2023/2024 Group 22 All Right Reserved" textFill="WHITE" />
+               </children>
+            </AnchorPane>
+         </left>
+         <right>
+            <AnchorPane prefHeight="200.0" prefWidth="360.0" BorderPane.alignment="CENTER">
+               <children>
+                      <Label layoutX="108.0" layoutY="44.0" text="SIGN UP" textAlignment="CENTER" textFill="#086464">
+                          <font>
+                              <Font name="Segoe UI Bold" size="36.0" />
+                          </font>
+                      </Label>
+                        <Label layoutX="31.0" layoutY="103.0" text="Full Name">
+                            <font>
+                                <Font name="Segoe UI" size="14.0" />
+                            </font>
+                        </Label>
+                  <TextField fx:id="fname1" layoutX="31.0" layoutY="128.0" prefHeight="30.0" prefWidth="300.0">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </TextField>
+                  <Label layoutX="31.0" layoutY="181.0" text="Email">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="emailAddress1" layoutX="31.0" layoutY="207.0" prefHeight="30.0" prefWidth="300.0">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </TextField>
+                  <Label layoutX="31.0" layoutY="263.0" text="Password">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </Label>
+                  <PasswordField fx:id="pass1" layoutX="31.0" layoutY="289.0" prefHeight="30.0" prefWidth="300.0">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </PasswordField>
+                  <Button fx:id="SignUpBtn1" layoutX="31.0" layoutY="336.0" style="-fx-background-color: #086464;" text="Sign Up" textFill="#ffffff">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </Button>
+                  <Label layoutX="32.0" layoutY="420.0" text="Already Have An Account?" textAlignment="CENTER" />
+                  <Button fx:id="jButton21" layoutX="180.0" layoutY="415.0" style="-fx-text-fill: #ff0000;" text="Login">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </right>
+      </BorderPane>
+        <VBox alignment="CENTER" layoutX="601.0" layoutY="539.0" spacing="20.0">
+            <children>
+                <HBox alignment="CENTER" spacing="20.0" />
+                <HBox alignment="CENTER" spacing="20.0">
+                    <children>
+                        <Label text="Email">
+                            <font>
+                                <Font name="Segoe UI" size="14.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="emailAddress" prefHeight="40.0">
+                            <font>
+                                <Font name="Segoe UI" size="14.0" />
+                            </font>
+                        </TextField>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" spacing="20.0">
+                    <children>
+                        <Label text="Password">
+                            <font>
+                                <Font name="Segoe UI" size="14.0" />
+                            </font>
+                        </Label>
+                        <PasswordField fx:id="pass" prefHeight="40.0">
+                            <font>
+                                <Font name="Segoe UI" size="14.0" />
+                            </font>
+                        </PasswordField>
+                    </children>
+                </HBox>
+                <Button fx:id="SignUpBtn" style="-fx-background-color: #666600;" text="Sign Up" textFill="#ffffff">
+                    <font>
+                        <Font name="Segoe UI" size="14.0" />
+                    </font>
+                </Button>
+                <HBox alignment="CENTER" spacing="20.0">
+                    <children>
+                        <Label text="Already Have An Account?" />
+                        <Button fx:id="jButton2" style="-fx-text-fill: #ff0000;" text="Login">
+                            <font>
+                                <Font name="Segoe UI" size="14.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
