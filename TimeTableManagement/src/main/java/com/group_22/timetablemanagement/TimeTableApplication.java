@@ -15,6 +15,7 @@ public class TimeTableApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 720, 470);
 //        stage.setTitle("Time Table Management System!");
 
+
         stage.setScene(scene);
         stage.show();
     }
