@@ -16,7 +16,7 @@
 1. To get started, clone this repository:
 
 ```bash
-git clone https://github.com/jackychung2003/CAT201-Assignment-2.git
+git clone https://github.com/JackyChung2003/CAT201-Project.git
 ```
 2. Open the `TimeTableManagement` folder within the `CAT201-Project` project in IntelliJ IDEA.
 
