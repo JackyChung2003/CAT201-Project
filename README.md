@@ -35,7 +35,7 @@ git clone https://github.com/JackyChung2003/CAT201-Project.git
 11. In the popup window, choose `Add new run configuration`, and from the options, select `Application`.
 12. In the `Name` section, provide a preferred name for the configuration (e.g., TimeTableApplication).
 13. In the "Build and run" section, press the "Browse" Icon on the `Main class` input box.
-14. Select "HelloApplication" as the main class and press "OK" or type in com.group_22.timetablemanagement.HelloApplication
+14. Select "TimeTableApplication" as the main class and press "OK" or type in com.group_22.timetablemanagement.TimeTableApplication
 15. Within the "Build and run" section, click the "Browse" icon next to the `Main class` input box.
 16. Choose `TimeTableApplication` from the available options or manually enter `com.group_22.timetablemanagement.TimeTableApplication`, and click `OK` .
 17. Click `Apply` and then click `OK`.
