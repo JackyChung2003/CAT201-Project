@@ -50,7 +50,7 @@ git clone https://github.com/jackychung2003/CAT201-Assignment-2.git
 22. In the MySQL admin panel:
    - Click on the `Import` tab.
 
-   - Choose the `Choose File` option to browse and select the `importJDBS.sql` file from the local repository you cloned earlier.
+   - Choose the `Choose File` option to browse and select the `jdbc-time-table.sql` file from the local repository you cloned earlier.
 
    - Click the "Go" or "Import" button to initiate the SQL file import process.
 
