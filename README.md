@@ -48,11 +48,19 @@ git clone https://github.com/JackyChung2003/CAT201-Project.git
 21. Once Apache and MySQL are running, click on the `Admin` button next to MySQL. This will open your default web browser and navigate to the MySQL admin panel.
 
 22. In the MySQL admin panel:
-   - Click on the `Import` tab.
+    
+   - Click on the `Databases` tab.
+     
+   - Enter "jdbc-time-table" as the desired `Database name`.
+     
+   - Scroll down and click the `Create` button to create the new database.
+     
+   - After creattng the database, click on the `Import` tab.
 
    - Choose the `Choose File` option to browse and select the `jdbc-time-table.sql` file from the local repository you cloned earlier.
 
    - Click the "Go" or "Import" button to initiate the SQL file import process.
+
 
 23. Wait for the import process to complete. You should see a success message indicating that the SQL file has been successfully imported. Your database is now set up with the necessary tables and data.
 
