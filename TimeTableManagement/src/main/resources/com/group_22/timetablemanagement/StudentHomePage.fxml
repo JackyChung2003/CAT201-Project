@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group_22.timetablemanagement.HomeController">
+   <left>
+      <VBox prefHeight="480.0" prefWidth="150.0" style="-fx-background-color: #086464;" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+               <image>
+                  <Image url="@../../../Picture/Icon.jpeg" />
+               </image>
+            </ImageView>
+            <Button fx:id="DashboardBtn" mnemonicParsing="false" onAction="#DashboardBtnOnClicked" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #0D6E6E; -fx-border-color: #0a8282; -fx-border-width: 2px  0px;" text="Dashboard" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <Button fx:id="CustomizeTimeTableBtn1" mnemonicParsing="false" onAction="#CustomizeTimeTableBtnOnClicked" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #0a8282; -fx-border-width: 0px 0px 2px  0px;" text="Customize Time Table" />
+            <Button fx:id="EditTimeTableBtn" layoutX="10.0" layoutY="161.0" mnemonicParsing="false" onAction="#EditTimeTableBtnOnClicked" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #0a8282; -fx-border-width: 0px 0px 2px 0px;" text="Edit Time Table" />
+            <Button fx:id="ModifyDueDatesBtn" layoutX="10.0" layoutY="212.0" mnemonicParsing="false" onAction="#ModifyDueDatesBtnOnClicked" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #0a8282; -fx-border-width: 0px 0px 2px 0px;" text="Modify Due Dates" />
+            <Button fx:id="EditPersonalBtn" layoutX="10.0" layoutY="262.0" mnemonicParsing="false" onAction="#EditPersonalBtnOnClicked" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #0a8282; -fx-border-width: 0px 0px 2px 0px;" text="Edit personal information" />
+            <Button fx:id="CourseUpdatesBtn1" layoutX="10.0" layoutY="327.0" mnemonicParsing="false" onAction="#CourseUpdatesBtn1OnClicked" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #0a8282; -fx-border-width: 0px 0px 2px 0px;" text="Course Updates" />
+            <Button fx:id="SignOutBtn" alignment="CENTER" contentDisplay="TOP" layoutX="10.0" layoutY="312.0" mnemonicParsing="false" onAction="#SignOutBtnOnClicked" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #0a8282; -fx-border-width: 2px 0px;" text="Log Out">
+               <VBox.margin>
+                  <Insets top="80.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+   </left>
+   <right>
+      <BorderPane prefHeight="480.0" prefWidth="570.0" style="-fx-background-color: #abd1c6;" BorderPane.alignment="CENTER">
+         <top>
+            <BorderPane prefHeight="220.0" prefWidth="570.0" BorderPane.alignment="CENTER">
+               <top>
+                  <Label fx:id="WelcomeUserLabel" maxHeight="40.0" maxWidth="540.0" prefWidth="540.0" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets />
+                     </BorderPane.margin>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+               </top>
+               <left>
+                  <BorderPane prefWidth="260.0" style="-fx-background-radius: 10; -fx-background-color: #004643;" BorderPane.alignment="CENTER">
+                     <top>
+                        <Label alignment="CENTER" prefHeight="30.0" prefWidth="201.0" text="Important Due Dates:" textAlignment="CENTER" textFill="#fffffe" BorderPane.alignment="BOTTOM_CENTER">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <BorderPane.margin>
+                              <Insets />
+                           </BorderPane.margin>
+                        </Label>
+                     </top>
+                     <bottom>
+                        <ListView fx:id="DueDatesListView" prefHeight="150.0" prefWidth="250.0" style="-fx-background-color: #87ccb6;" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" />
+                           </BorderPane.margin>
+                        </ListView>
+                     </bottom>
+                     <BorderPane.margin>
+                        <Insets bottom="5.0" left="15.0" right="10.0" />
+                     </BorderPane.margin>
+                  </BorderPane>
+               </left>
+               <right>
+                  <BorderPane prefWidth="260.0" style="-fx-background-color: #004643; -fx-background-radius: 10;" BorderPane.alignment="CENTER">
+                     <bottom>
+                        <ListView fx:id="UpdateListView" prefHeight="150.0" prefWidth="250.0" style="-fx-background-color: #87ccb6;" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" />
+                           </BorderPane.margin>
+                        </ListView>
+                     </bottom>
+                     <top>
+                        <Label alignment="CENTER" prefHeight="30.0" prefWidth="201.0" text="Important Updates:" textAlignment="CENTER" textFill="#fffffe" BorderPane.alignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </top>
+                     <BorderPane.margin>
+                        <Insets bottom="5.0" left="10.0" right="15.0" />
+                     </BorderPane.margin>
+                  </BorderPane>
+               </right>
+            </BorderPane>
+         </top>
+         <bottom>
+            <BorderPane prefHeight="260.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <top>
+                  <Label text="Time table" BorderPane.alignment="TOP_LEFT">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <BorderPane.margin>
+                        <Insets left="10.0" top="10.0" />
+                     </BorderPane.margin>
+                  </Label>
+               </top>
+               <bottom>
+                  <ImageView fitHeight="318.0" fitWidth="541.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                     <image>
+                        <Image url="@../../../Picture/Example-TimeTable.jpeg" />
+                     </image>
+                     <BorderPane.margin>
+                        <Insets bottom="30.0" />
+                     </BorderPane.margin>
+                  </ImageView>
+               </bottom>
+            </BorderPane>
+         </bottom>
+      </BorderPane>
+   </right>
+</BorderPane>

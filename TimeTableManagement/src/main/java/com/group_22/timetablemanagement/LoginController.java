@@ -81,6 +81,14 @@ public class LoginController {
 //        }
 //    }
 
+    private String getFullName(String studentFullName, String teacherFullName) {
+        return (studentFullName != null) ? studentFullName : teacherFullName;
+    }
+
+    private Integer getStudentTeacherID(Integer studentID, Integer teacherID) {
+        return (studentID != null) ? studentID : teacherID;
+    }
+
     public void SignInBtn1OnAction (ActionEvent event) {
 
         String emailText = emailAddress1.getText().trim();
@@ -91,48 +99,96 @@ public class LoginController {
             loginMessageLabel.setText("Email and password are required");
             return;
         }
-//
-//        System.out.println("email " + emailText);
-//        System.out.println("password " + passwordText);
 
         try {
             Statement statement = connectDB.createStatement();
-            String query = "SELECT * FROM user WHERE user_gmail = '" + emailText + "'";
+
+//            String query = "SELECT Users.*, Students.StudentName AS StudentFullName, Teachers.TeacherName AS TeacherFullName " +
+            String query = "SELECT Users.*, Students.StudentName AS StudentFullName, " +
+                    "Teachers.TeacherName AS TeacherFullName, Students.StudentID, " +
+                    "Teachers.TeacherID " +
+                    "FROM Users " +
+                    "LEFT JOIN Students ON Users.UserID = Students.UserID " +
+                    "LEFT JOIN Teachers ON Users.UserID = Teachers.UserID " +
+                    "WHERE Users.User_email = '" + emailText + "'";
+
             ResultSet resultSet = statement.executeQuery(query);
 
             if (resultSet.next()) {
-                String dbPassword = resultSet.getString("user_password");
-                String fullName = resultSet.getString("user_name");
+                String dbPassword = resultSet.getString("Password");
+                String role = resultSet.getString("Role");
+                String studentFullName = resultSet.getString("StudentFullName");
+                String teacherFullName = resultSet.getString("TeacherFullName");
+                Integer userID = resultSet.getInt("UserID");
+
+                Integer StudentID = resultSet.getInt("StudentID");
+                Integer TeacherID = resultSet.getInt("TeacherID");
+
+                System.out.println(StudentID);
+                System.out.println(TeacherID);
+
 
                 if (passwordText.equals(dbPassword)) {
                     // Successful login
-                    loginMessageLabel.setText("Welcome, " + fullName + "!");
+                    loginMessageLabel.setText("Welcome, " + getFullName(studentFullName, teacherFullName) + "!");
+
 
                     // Load the home page
                     FXMLLoader loader = null;
-                    if (homeStage == null) {
-                        // If home stage is not created yet, create it
-                        loader = new FXMLLoader(getClass().getResource("HomePage.fxml"));
-                        root = loader.load();
-                        homeScene = new Scene(root);
-                        homeStage = new Stage();
-                        homeStage.setScene(homeScene);
+
+                    // Load based on the role
+                    if (role.equals("Student")) {
+                        loader = new FXMLLoader(getClass().getResource("StudentHomePage.fxml"));
+                    } else if (role.equals("Teacher")) {
+                        loader = new FXMLLoader(getClass().getResource("TeacherHomePage.fxml"));
+                    } else if (role.equals("Admin")) {
+                        loader = new FXMLLoader(getClass().getResource("TeacherHomePage.fxml"));
                     }
-                    // Show the home stage
-                    homeStage.show();
+                    if (loader != null) {
+                        Parent root = loader.load();
+                        Scene homeScene = new Scene(root);
+                        Stage homeStage = new Stage();
+                        homeStage.setScene(homeScene);
 
-                    // Pass any necessary data to the HomeController
-                    HomeController homeController = loader.getController();
-                     homeController.initData(fullName);  // You can create a method like initData to pass data
+                        // Pass any necessary data to the controllers
+                        Object controller = loader.getController();
+                        if (controller instanceof HomeController) {
+                            ((HomeController) controller).initData(userID, getStudentTeacherID(StudentID,TeacherID),getFullName(studentFullName, teacherFullName), role);
+                            ((HomeController) controller).initialize();
+                        }
 
-                    // Close the login stage if needed
-                    ((Stage) SignInBtn1.getScene().getWindow()).close();
+                        // Show the home stage
+                        homeStage.show();
+
+                        // Close the login stage if needed
+                        ((Stage) SignInBtn1.getScene().getWindow()).close();
+                    } else {
+                        loginMessageLabel.setText("Invalid role");
+                    }
+
+//                    if (homeStage == null) {
+//                        // If home stage is not created yet, create it
+//                        loader = new FXMLLoader(getClass().getResource("StudentHomePage.fxml"));
+//                        root = loader.load();
+//                        homeScene = new Scene(root);
+//                        homeStage = new Stage();
+//                        homeStage.setScene(homeScene);
+//                    }
+//                    // Show the home stage
+//                    homeStage.show();
+//
+//                    // Pass any necessary data to the HomeController
+//                    HomeController homeController = loader.getController();
+//                     homeController.initData(fullName);  // You can create a method like initData to pass data
+//
+//                    // Close the login stage if needed
+//                    ((Stage) SignInBtn1.getScene().getWindow()).close();
                 } else {
                     loginMessageLabel.setText("Incorrect password");
                 }
 //                    // Load the home page
 //                    try {
-//                        FXMLLoader loader = new FXMLLoader(getClass().getResource("HomePage.fxml"));
+//                        FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentHomePage.fxml"));
 //                        root = loader.load();
 //
 //                        // Create a new scene

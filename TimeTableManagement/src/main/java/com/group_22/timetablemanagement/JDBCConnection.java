@@ -15,28 +15,36 @@ public class JDBCConnection {
         String url = "jdbc:mysql://localhost:3306/jdbc-time-table";
         String username = "root";
         String password = "";
-        if (connection == null) {
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                connection = DriverManager.getConnection(url, username, password);
-//                Statement statement = connection.createStatement();
-//
-//                ResultSet resultSet = statement.executeQuery("select * from user");
-//
-//                while (resultSet.next()) {
-//                    System.out.println(resultSet.getInt(1) + " " + resultSet.getString(2) + resultSet.getString(3) + resultSet.getString(4));
-//                }
-//
-//                connection.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        Connection connection = null;
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, username, password);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+//        if (connection == null) {
+//            try {
+//                Class.forName("com.mysql.cj.jdbc.Driver");
+//                connection = DriverManager.getConnection(url, username, password);
+////                Statement statement = connection.createStatement();
+////
+////                ResultSet resultSet = statement.executeQuery("select * from user");
+////
+////                while (resultSet.next()) {
+////                    System.out.println(resultSet.getInt(1) + " " + resultSet.getString(2) + resultSet.getString(3) + resultSet.getString(4));
+////                }
+////
+////                connection.close();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
         return connection;
     }
 
     // Method to close the database connection
-    public static void closeConnection() {
+    public static void closeConnection(Connection connection) {
         try {
             if (connection != null && !connection.isClosed()) {
                 connection.close();
@@ -45,4 +53,16 @@ public class JDBCConnection {
             e.printStackTrace();
         }
     }
+
+//    // Method to close the database connection
+//    public static void closeConnection() {
+//        try {
+//            if (connection != null && !connection.isClosed()) {
+//                connection.close();
+//                connection = null;
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

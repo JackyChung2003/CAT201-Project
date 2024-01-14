@@ -30,6 +30,8 @@
             <Button fx:id="EditTimeTableBtn" layoutX="10.0" layoutY="161.0" mnemonicParsing="false" onAction="#EditTimeTableBtnOnClicked" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #0a8282; -fx-border-width: 0px 0px 2px 0px;" text="Edit Time Table" />
             <Button fx:id="ModifyDueDatesBtn" layoutX="10.0" layoutY="212.0" mnemonicParsing="false" onAction="#ModifyDueDatesBtnOnClicked" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #0a8282; -fx-border-width: 0px 0px 2px 0px;" text="Modify Due Dates" />
             <Button fx:id="EditPersonalBtn" layoutX="10.0" layoutY="262.0" mnemonicParsing="false" onAction="#EditPersonalBtnOnClicked" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #0a8282; -fx-border-width: 0px 0px 2px 0px;" text="Edit personal information" />
+            <Button fx:id="CourseUpdatesBtn1" layoutX="10.0" layoutY="327.0" mnemonicParsing="false" onAction="#CourseUpdatesBtn1OnClicked" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #0a8282; -fx-border-width: 0px 0px 2px 0px;" text="Course Updates" />
+            
             <Button fx:id="SignOutBtn" alignment="CENTER" contentDisplay="TOP" layoutX="10.0" layoutY="312.0" mnemonicParsing="false" onAction="#SignOutBtnOnClicked" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #0a8282; -fx-border-width: 2px 0px;" text="Log Out">
                <VBox.margin>
                   <Insets top="80.0" />
@@ -68,7 +70,7 @@
                         </Label>
                      </top>
                      <bottom>
-                        <ListView fx:id="UpdateListView" prefHeight="150.0" prefWidth="250.0" style="-fx-background-color: #87ccb6;" BorderPane.alignment="CENTER">
+                        <ListView fx:id="DueDatesListView" prefHeight="150.0" prefWidth="250.0" style="-fx-background-color: #87ccb6;"  BorderPane.alignment="CENTER">
                            <BorderPane.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" />
                            </BorderPane.margin>
@@ -82,10 +84,12 @@
                <right>
                   <BorderPane prefWidth="260.0" style="-fx-background-color: #004643; -fx-background-radius: 10;" BorderPane.alignment="CENTER">
                      <bottom>
-                        <ListView fx:id="DueDatesListView" prefHeight="150.0" prefWidth="250.0" style="-fx-background-color: #87ccb6;" BorderPane.alignment="CENTER">
+                        <ListView fx:id="UpdateListView" prefHeight="150.0" prefWidth="250.0" style="-fx-background-color: #87ccb6;" BorderPane.alignment="CENTER">
                            <BorderPane.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" />
                            </BorderPane.margin>
+                           <!-- Link the CSS file -->
+<!--                           <?scenebuilder-stylesheet ..\..\..\Styling\ListViewstyles.css?>-->
                         </ListView>
                      </bottom>
                      <top>
