@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 14, 2024 at 05:18 PM
+-- Generation Time: Jan 14, 2024 at 05:25 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -35,17 +35,6 @@ CREATE TABLE `announcements` (
   `PostDate` date DEFAULT NULL,
   `PostByName` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `announcements`
---
-
-INSERT INTO `announcements` (`AnnouncementID`, `CourseID`, `AnnouncementTitle`, `AnnouncementDetails`, `PostDate`, `PostByName`) VALUES
-(1, 1, 'testing', 'tomorrow pls bring some shirt to school', '2024-01-14', 'Teacher 1'),
-(2, 1, 'qwsajskjaw', 'asasqwq', '2024-01-14', 'Teacher 1'),
-(3, 1, 'sa', 'qa', '2024-01-14', 'Teacher 1'),
-(4, 2, 'sasa', 'qqs', '2024-01-14', 'Teacher 1'),
-(5, 1, 'sqs', '132', '2024-01-14', 'Teacher 1');
 
 -- --------------------------------------------------------
 
@@ -114,7 +103,7 @@ CREATE TABLE `courses` (
 --
 
 INSERT INTO `courses` (`CourseID`, `CourseCode`, `CourseName`) VALUES
-(1, 'CAT201', 'Integrated Software Development Workshop'),
+(1, 'CAT201', 'CAT201 - Integrated Software Development Workshop'),
 (2, 'CMT221', 'DATABASE ORGANISATION & DESIGN');
 
 -- --------------------------------------------------------
@@ -132,21 +121,6 @@ CREATE TABLE `duedates` (
   `PostDate` date DEFAULT NULL,
   `PostByName` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `duedates`
---
-
-INSERT INTO `duedates` (`DueDateID`, `CourseID`, `DueDate`, `DueDateTitle`, `DueDateText`, `PostDate`, `PostByName`) VALUES
-(5, 2, '2024-01-14', '12', 'sqwsq', '2024-01-14', 'Teacher 1'),
-(6, 1, '2024-01-21', 'jacky', 'qwqwqw', '2024-01-14', 'Teacher 1'),
-(7, 1, '2024-01-07', 'jasajs', 'sas', '2024-01-14', 'Teacher 1'),
-(8, 2, '2024-01-06', '21was', '12', '2024-01-14', 'Teacher 1'),
-(9, 2, '2024-01-06', '1212sasas', 'sas', '2024-01-14', 'Teacher 1'),
-(10, 2, '2024-01-06', '21sas', 'as', '2024-01-14', 'Teacher 1'),
-(11, 2, '2024-01-07', 'df', 'asd', '2024-01-14', 'Teacher 1'),
-(12, 1, '2024-01-15', 'future', 'testing 124 sdkjdkanksdaiosdjasd asyaa sasa', '2024-01-14', 'Teacher 1'),
-(13, 1, '2024-01-14', 'today', 'hj jfg hbghuj', '2024-01-14', 'Teacher 1');
 
 -- --------------------------------------------------------
 
@@ -252,21 +226,6 @@ CREATE TABLE `timetable` (
 CREATE TABLE `timetableclasses` (
   `TimetableID` int(11) NOT NULL,
   `ClassID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `timetables`
---
-
-CREATE TABLE `timetables` (
-  `TimetableID` int(11) NOT NULL,
-  `StudentID` int(11) DEFAULT NULL,
-  `CourseID` int(11) DEFAULT NULL,
-  `DayOfWeek` varchar(10) DEFAULT NULL,
-  `StartTime` time DEFAULT NULL,
-  `EndTime` time DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -406,14 +365,6 @@ ALTER TABLE `timetableclasses`
   ADD KEY `ClassID` (`ClassID`);
 
 --
--- Indexes for table `timetables`
---
-ALTER TABLE `timetables`
-  ADD PRIMARY KEY (`TimetableID`),
-  ADD KEY `StudentID` (`StudentID`),
-  ADD KEY `CourseID` (`CourseID`);
-
---
 -- Indexes for table `universities`
 --
 ALTER TABLE `universities`
@@ -434,7 +385,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `announcements`
 --
 ALTER TABLE `announcements`
-  MODIFY `AnnouncementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `AnnouncementID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `classes`
@@ -452,7 +403,7 @@ ALTER TABLE `courses`
 -- AUTO_INCREMENT for table `duedates`
 --
 ALTER TABLE `duedates`
-  MODIFY `DueDateID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `DueDateID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `students`
@@ -476,12 +427,6 @@ ALTER TABLE `teacherscourses`
 -- AUTO_INCREMENT for table `timetable`
 --
 ALTER TABLE `timetable`
-  MODIFY `TimetableID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `timetables`
---
-ALTER TABLE `timetables`
   MODIFY `TimetableID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -568,15 +513,8 @@ ALTER TABLE `timetable`
 -- Constraints for table `timetableclasses`
 --
 ALTER TABLE `timetableclasses`
-  ADD CONSTRAINT `timetableclasses_ibfk_1` FOREIGN KEY (`TimetableID`) REFERENCES `timetables` (`TimetableID`),
+  ADD CONSTRAINT `timetableclasses_ibfk_1` FOREIGN KEY (`TimetableID`) REFERENCES `timetable` (`TimetableID`),
   ADD CONSTRAINT `timetableclasses_ibfk_2` FOREIGN KEY (`ClassID`) REFERENCES `classes` (`ClassID`);
-
---
--- Constraints for table `timetables`
---
-ALTER TABLE `timetables`
-  ADD CONSTRAINT `timetables_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `students` (`StudentID`),
-  ADD CONSTRAINT `timetables_ibfk_2` FOREIGN KEY (`CourseID`) REFERENCES `courses` (`CourseID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
