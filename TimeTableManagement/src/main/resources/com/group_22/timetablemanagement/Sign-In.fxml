@@ -14,7 +14,7 @@
 
 <!--<AnchorPane xmlns="http://javafx.com/javafx"-->
 <!--            xmlns:fx="http://javafx.com/fxml"-->
-<!--            fx:controller="com.group_22.timetablemanagement.SignUp"-->
+<!--            fx:controller="com.group_22.timetablemanagement.SignUpController"-->
 <!--            prefHeight="400.0" prefWidth="600.0">-->
 <!--</AnchorPane>-->
 
@@ -67,7 +67,7 @@
                      </font>
                   </Button>
                   <Label layoutX="32.0" layoutY="420.0" text="Don't Have An Account?" textAlignment="CENTER" />
-                  <Button fx:id="JumpSignUpButton" layoutX="180.0" layoutY="415.0" style="-fx-text-fill: #ff0000;" text="Sign Up">
+                  <Button fx:id="JumpSignUpButton" layoutX="180.0" layoutY="415.0" onAction="#JumpSignUpButtonOnAction" style="-fx-text-fill: #ff0000;" text="Sign Up">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>

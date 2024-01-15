@@ -3,7 +3,6 @@ package com.group_22.timetablemanagement;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,8 +20,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 public class HomeController {
@@ -84,41 +81,19 @@ public class HomeController {
     private Connection connectDB;
     private Integer StudentTeacherID;
 
-//    public void initialize() {
-//        // Check the user's role and adjust the visibility of the Course Updates button
-//        String userRole = getUserRole(); // Implement this method to get the user's role
-//        if ("Student".equals(userRole)) {
-//            CourseUpdatesBtn1.setVisible(false);
-//        }
-//    }
-
     @FXML
     void initialize() {
-
-
-        // Call a method to initialize course names
-//        initializeCourseNames();
-
-        // Fetch data from the database and populate the UpdateListView
-//        ObservableList<String> dueDatesData = fetchDataFromDatabase();
-//        this.DueDatesListView.setItems(dueDatesData);'
-        System.out.println("Start Enter the initialize");
-//        initData(userID,StudentTeacherID,fullName,role);
-
         ObservableList<String> dueDatesData = fetchDataFromDatabase();
 
         // Check if DueDatesListView is not null before setting items
         if (DueDatesListView != null) {
             DueDatesListView.getItems().clear();  // Clear existing items
             DueDatesListView.setItems(dueDatesData);
-//            UpdateListView.setItems(dueDatesData);
-
         } else {
             System.out.println("DueDatesListView is null");
         }
 
         ObservableList<String> UpdatesData = fetchAnnouncementFromDatabase();
-
         // Check if DueDatesListView is not null before setting items
         if (UpdateListView != null) {
             UpdateListView.getItems().clear();  // Clear existing items
@@ -126,135 +101,7 @@ public class HomeController {
         } else {
             System.out.println("UpdateListView is null");
         }
-
-
-
-
-        System.out.println("End of the initialize");
-//        Task<ObservableList<String>> fetchTask = new Task<ObservableList<String>>() {
-//            @Override
-//            protected ObservableList<String> call() throws Exception {
-//                return fetchDataFromDatabase();
-//            }
-//        };
-//
-//        fetchTask.setOnSucceeded(event -> {
-//            ObservableList<String> dueDatesData = fetchTask.getValue();
-//            DueDatesListView.setItems(dueDatesData);
-//        });
-//
-//        new Thread(fetchTask).start();
     }
-
-
-
-//    private ObservableList<String> fetchDataFromDatabase() {
-//        ObservableList<String> dataList = FXCollections.observableArrayList();
-//
-//        try {
-//            // Connect to the database
-//            Connection connection = JDBCConnection.getConnection();
-//
-//            // Execute your SQL query to fetch data
-//            String query = "SELECT * FROM DueDates";
-//            try (Statement statement = connection.createStatement();
-//                 ResultSet resultSet = statement.executeQuery(query)) {
-//
-//                // Iterate through the result set and add data to the list
-//                while (resultSet.next()) {
-//                    String data = resultSet.getString("DueDateTitle"); // Replace "ColumnName" with the actual column name
-//                    dataList.add(data);
-//                }
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            // Handle exceptions as needed
-//        }
-//
-//        return dataList;
-//    }
-
-//    private ObservableList<String> fetchTeacherCoursesFromDatabase() {
-//        ObservableList<String> dataList = FXCollections.observableArrayList();
-//
-//        try {
-//            Connection connection = JDBCConnection.getConnection();
-//
-//            String query = "SELECT courses.* " +
-//                    "FROM courses " +
-//                    "JOIN teacherscourses ON teacherscourses.CourseID = courses.CourseID " +
-//                    "JOIN teachers ON teachers.TeacherID = teacherscourses.TeacherID " +
-//                    "WHERE teachers.UserID = '" + userID + "'";
-//
-//            try (Statement statement = connection.createStatement();
-//                 ResultSet resultSet = statement.executeQuery(query)) {
-//
-//                while (resultSet.next()) {
-//                    String data = resultSet.getString("DueDateTitle");
-//                    dataList.add(data);
-//                }
-//
-//                Platform.runLater(() -> {
-//                    if (DueDatesListView != null) {
-//                        DueDatesListView.setItems(dataList);
-//                    } else {
-//                        System.out.println("DueDatesListView is null");
-//                    }
-//                });
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            // Handle exceptions as needed
-//        }
-//
-//        return dataList;
-//    }
-
-//    private ObservableList<CourseInfo> fetchStudentCoursesFromDatabase() {
-////        ObservableList<Course> dataList = FXCollections.observableArrayList();
-//        ObservableList<CourseInfo> courses = FXCollections.observableArrayList();
-//
-//        try {
-//            Connection connection = JDBCConnection.getConnection();
-//
-//            String query = "SELECT courses.*" +
-//                    "FROM courses\n" +
-//                    "JOIN teacherscourses ON teacherscourses.CourseID = courses.CourseID\n" +
-//                    "JOIN teachers ON teachers.TeacherID = teacherscourses.TeacherID -- Corrected JOIN condition\n" +
-//                    "WHERE teachers.UserID = '" + userID + "'"+
-//                    "UNION\n" +
-//                    "SELECT courses.*\n" +
-//                    "FROM courses\n" +
-//                    "JOIN studentcourses ON studentcourses.CourseID = courses.CourseID\n" +
-//                    "JOIN students ON students.StudentID = studentcourses.StudentID\n" +
-//                    "WHERE students.UserID = '" + userID + "'";
-//
-//
-//            try (Statement statement = connection.createStatement();
-//                 ResultSet resultSet = statement.executeQuery(query)) {
-//
-//                while (resultSet.next()) {
-//                    int courseId = resultSet.getInt("CourseID");
-//                    String courseCode = resultSet.getString("CourseCode");
-//                    String courseName = resultSet.getString("CourseName");
-//
-//                    System.out.println(courseId);
-//                    System.out.println(courseCode);
-//                    System.out.println(courseName);
-//
-//                    // Create an instance of Course and add it to the list
-//                    CourseInfo courseInfo = new CourseInfo(courseId, courseCode, courseName);
-//                    courses.add(courseInfo);
-//                }
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            // Handle exceptions as needed
-//        }
-//
-//        return courses;
-//    }
-
 
     private ObservableList<String> fetchDataFromDatabase() {
         ObservableList<String> dataList = FXCollections.observableArrayList();
@@ -274,17 +121,6 @@ public class HomeController {
                     "AND duedates.duedate >= CURDATE() " +  // Add this condition to filter out past due dates
                     "ORDER BY duedates.duedate";
 
-//            String query = "SELECT duedates.* " +
-//                    "FROM DueDates " +
-//                    "LEFT JOIN courses ON courses.CourseID = duedates.CourseID " +
-//                    "LEFT JOIN teacherscourses ON teacherscourses.CourseID = courses.CourseID " +
-//                    "LEFT JOIN studentcourses ON studentcourses.CourseID = courses.CourseID " +
-//                    "LEFT JOIN teachers ON teachers.TeacherID = teacherscourses.TeacherID " +
-//                    "LEFT JOIN students ON students.StudentID = studentcourses.StudentID " +
-//                    "WHERE (students.UserID = ? OR teachers.UserID = ?) " +
-//                    "AND duedates.duedate >= CURDATE() " +
-//                    "ORDER BY duedates.duedate";
-
             System.out.println("Query:" +query);
 
 
@@ -299,13 +135,6 @@ public class HomeController {
                     String postDate = resultSet.getString("PostDate");
                     String postByName = resultSet.getString("PostByName");
 
-
-//                    System.out.println(dueDate);
-//                    System.out.println(dueDateTitle);
-//                    System.out.println(dueDateText);
-//                    System.out.println(postDate);
-//                    System.out.println(postByName);
-////                    dataList.add(dueDateTitle);
                     if(queryExecutionCounter % 2 == 0){
                         String rowData = String.format("「 %s 」 %nDetails: %s  %nDue Date: %s | Post By: %s",
                                 dueDateTitle, dueDateText, dueDate, postByName);
@@ -314,11 +143,6 @@ public class HomeController {
                         dataList.add(rowData);
                     }
                     queryExecutionCounter++;
-//                    String rowData = String.format("「 %s 」 %nDetails: %s  %nDue Date: %s | Post By: %s",
-//                            dueDateTitle, dueDateText, dueDate, postByName);
-//
-//                    System.out.println(rowData);
-//                    dataList.add(rowData);
                 }
 
                 // UI-related operation wrapped in Platform.runLater
@@ -335,58 +159,15 @@ public class HomeController {
             e.printStackTrace();
             // Handle exceptions as needed
         }
-
         return dataList;
     }
 
     private ObservableList<String> fetchAnnouncementFromDatabase() {
         ObservableList<String> dataList = FXCollections.observableArrayList();
-//        int queryExecutionCounter = 0;
 
         try {
             // Connect to the database
             Connection connection = JDBCConnection.getConnection();
-
-//            String query = "SELECT duedates.* FROM DueDates " +
-//                    "LEFT JOIN courses ON courses.CourseID = duedates.CourseID " +
-//                    "LEFT JOIN teacherscourses ON teacherscourses.CourseID = courses.CourseID " +
-//                    "LEFT JOIN studentcourses ON studentcourses.CourseID = courses.CourseID " +
-//                    "LEFT JOIN teachers ON teachers.TeacherID = teacherscourses.TeacherID " +
-//                    "LEFT JOIN students ON students.StudentID = studentcourses.StudentID " +
-//                    "WHERE (students.UserID = " + userID + " OR teachers.UserID = " + userID + ") " +
-//                    "AND duedates.duedate >= CURDATE() " +  // Add this condition to filter out past due dates
-//                    "ORDER BY duedates.duedate";
-
-//            String query = "SELECT announcements.*, courses.CourseCode, courses.CourseName " +
-//                    "FROM Announcements " +
-//                    "JOIN Courses ON Courses.CourseID = Announcements.CourseID " +
-//                    "JOIN StudentCourses ON StudentCourses.CourseID = Courses.CourseID " +
-//                    "JOIN Students ON Students.StudentID = StudentCourses.StudentID " +
-//                    "WHERE (students.UserID = " + userID +
-//                    " UNION " +
-//                    "SELECT announcements.*, courses.CourseCode, courses.CourseName " +
-//                    "FROM Announcements " +
-//                    "JOIN Courses ON Courses.CourseID = Announcements.CourseID " +
-//                    "JOIN TeachersCourses ON TeachersCourses.CourseID = Courses.CourseID " +
-//                    "JOIN Teachers ON Teachers.TeacherID = TeachersCourses.TeacherID " +
-//                    "WHERE (teachers.UserID = " + userID +
-//                    " AND Announcements.PostDate >= CURDATE() - INTERVAL 7 DAY " +
-//                    "ORDER BY Announcements.PostDate";
-
-//            String query = "SELECT announcements.*, courses.CourseCode, courses.CourseName " +
-//                    "FROM Announcements " +
-//                    "JOIN Courses ON Courses.CourseID = Announcements.CourseID " +
-//                    "JOIN StudentCourses ON StudentCourses.CourseID = Courses.CourseID " +
-//                    "JOIN Students ON Students.StudentID = StudentCourses.StudentID " +
-//                    "WHERE (students.UserID = " + userID + ") " +   // Added parentheses here
-//                    "UNION " +
-//                    "SELECT announcements.*, courses.CourseCode, courses.CourseName " +
-//                    "FROM Announcements " +
-//                    "JOIN Courses ON Courses.CourseID = Announcements.CourseID " +
-//                    "JOIN TeachersCourses ON TeachersCourses.CourseID = Courses.CourseID " +
-//                    "JOIN Teachers ON Teachers.TeacherID = TeachersCourses.TeacherID " +
-//                    "WHERE (teachers.UserID = " + userID + " AND Announcements.PostDate >= CURDATE() - INTERVAL 7 DAY) " +  // Added parentheses here
-//                    "ORDER BY Announcements.PostDate ASC ";
 
             String query = "SELECT * FROM ( " +
                                 "SELECT announcements.*, courses.CourseCode, courses.CourseName " +
@@ -409,8 +190,6 @@ public class HomeController {
                             "WHERE combined_result.PostDate >= CURDATE() - INTERVAL 7 DAY " +
                             "ORDER BY combined_result.PostDate";
 
-
-
             System.out.println("Query:" +query);
 
             try (Statement statement = connection.createStatement();
@@ -425,22 +204,6 @@ public class HomeController {
                     String postDate = resultSet.getString("PostDate");
                     String postByName = resultSet.getString("PostByName");
 
-
-                    System.out.println(courseCode);
-                    System.out.println(courseName);
-                    System.out.println(announcementTitle);
-                    System.out.println(announcementDetails);
-                    System.out.println(postDate);
-                    System.out.println(postByName);
-////                    dataList.add(dueDateTitle);
-//                    if(queryExecutionCounter % 2 == 0){
-//                        String rowData = String.format("「 %s 」 %nDetails: %s  %nDue Date: %s | Post By: %s",
-//                                dueDateTitle, dueDateText, dueDate, postByName);
-//
-//                        System.out.println(rowData);
-//                        dataList.add(rowData);
-//                    }
-//                    queryExecutionCounter++;
                     String rowData = String.format("「 %s 」 %n->%s %s %nDetails: %s  %n Post By: %s| %s ",
                             announcementTitle, courseCode, courseName, announcementDetails, postByName, postDate);
 
@@ -465,85 +228,6 @@ public class HomeController {
 
         return dataList;
     }
-
-//    private ObservableList<String> fetchDataFromDatabase() {
-//        ObservableList<String> dataList = FXCollections.observableArrayList();
-//
-//        if (DueDatesListView == null) {
-//            System.out.println("DueDatesListView is null in fetchDataFromDatabase");
-//            return dataList; // Return an empty list or handle it as needed
-//        }
-//
-//        try {
-//            // Connect to the database
-//            Connection connection = JDBCConnection.getConnection();
-//
-//            // Execute your SQL query to fetch data
-//            String query = "SELECT * FROM DueDates";
-//            try (Statement statement = connection.createStatement();
-//                 ResultSet resultSet = statement.executeQuery(query)) {
-//
-//                // Iterate through the result set and add data to the list
-//                while (resultSet.next()) {
-//                    String data = resultSet.getString("DueDateTitle");
-//                    dataList.add(data);
-//                }
-//
-//                // UI-related operation wrapped in Platform.runLater
-//                Platform.runLater(() -> {
-//                    // Update UI here if needed
-//                    // ...
-//                });
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            // Handle exceptions as needed
-//        }
-//
-//        return dataList;
-//    }
-
-
-//    void initializeCourseNames() {
-//        connectDB = JDBCConnection.getConnection();
-//        // Initialize database connection
-//        try {
-//            Statement statement = connectDB.createStatement();
-//
-//            String query = "SELECT * " +
-//                    "FROM Courses " +
-//                    "JOIN TeachersCourses ON TeachersCourses.CourseID = Courses.CourseID " +
-//                    "JOIN Teachers ON Teachers.TeacherID = TeachersCourses.TeacherID " +
-//                    "WHERE Teachers.UserID = " + userID;
-//
-//            ResultSet resultSet = statement.executeQuery(query);
-//
-////            ObservableList<String> courseNames = FXCollections.observableArrayList();
-//            ObservableList<CourseInfo> courses = FXCollections.observableArrayList();
-//
-//            while (resultSet.next()) {
-//                // Assuming there is a column named "CourseName" in the Courses table
-//                String courseName = resultSet.getString("CourseName");
-//                int courseId = resultSet.getInt("CourseID");
-//
-//                CourseInfo courseInfo = new CourseInfo(courseName, courseId);
-//                courses.add(courseInfo);
-////                courseNames.add(courseName);
-////                System.out.println(courseName);
-//            }
-//
-////            // Set the items of your CourseDropDownBtn
-////            CourseDropDownBtn.setItems(courseNames);
-//
-//            // Set the items of your CourseDropDownBtn
-////            CourseDropDownBtn.setItems(courses);
-//
-////            resultSet.close();
-////            statement.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     @FXML
     void DashboardBtnOnClicked(ActionEvent event) throws IOException {
@@ -570,12 +254,6 @@ public class HomeController {
 
     @FXML
     void CustomizeTimeTableBtnOnClicked(ActionEvent event) throws IOException {
-//        // Load the new FXML file
-//        root = FXMLLoader.load(getClass().getResource("CustomizePage.fxml"));
-//        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        scene = new Scene(root);
-//        stage.setScene(scene);
-//        stage.show();
         // Load the new FXML file
         if ("Student".equals(role)) {
             CourseUpdatesBtn1.setVisible(false);
@@ -590,27 +268,10 @@ public class HomeController {
         // Pass any necessary data to the HomeController
         HomeController homeController = loader.getController();
         homeController.initData(userID, StudentTeacherID,  fullName, role);
-
-
-
-
-        System.out.println(role);
     }
 
     @FXML
     void EditTimeTableBtnOnClicked(ActionEvent event) throws IOException {
-//        // Load the new FXML file
-//        root = FXMLLoader.load(getClass().getResource("EditTimeTable.fxml"));
-//        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        scene = new Scene(root);
-//        stage.setScene(scene);
-//        stage.show();
-//
-//        // Pass any necessary data to the HomeController
-//        HomeController homeController = loader.getController();
-//        homeController.initData(fullName, role);
-
-
         loader = new FXMLLoader(getClass().getResource("EditTimeTable.fxml"));
         root = loader.load();
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -628,20 +289,6 @@ public class HomeController {
     @FXML
     void ModifyDueDatesBtnOnClicked(ActionEvent event) throws IOException {
         // Load the new FXML file
-//        root = FXMLLoader.load(getClass().getResource("ModifyDueDates.fxml"));
-//        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        scene = new Scene(root);
-//        stage.setScene(scene);
-//        stage.show();
-//
-//        // Pass any necessary data to the HomeController
-//        HomeController homeController = loader.getController();
-//        homeController.initData(fullName, role);
-//
-//
-//        // Update CourseUpdatesBtn1 visibility in HomeController
-//        updateCourseUpdatesBtnVisibility(role);
-//
         loader = new FXMLLoader(getClass().getResource("ModifyDueDates.fxml"));
         root = loader.load();
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -659,17 +306,6 @@ public class HomeController {
     @FXML
     void EditPersonalBtnOnClicked(ActionEvent event) throws IOException {
         // Load the new FXML file
-//        root = FXMLLoader.load(getClass().getResource("EditPersonalInfo.fxml"));
-//        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        scene = new Scene(root);
-//        stage.setScene(scene);
-//        stage.show();
-//
-//        // Pass any necessary data to the HomeController
-//        HomeController homeController = loader.getController();
-//        homeController.initData(fullName, role);
-//
-//        System.out.println(role);
         loader = new FXMLLoader(getClass().getResource("EditPersonalInfo.fxml"));
         root = loader.load();
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -680,69 +316,18 @@ public class HomeController {
         // Pass any necessary data to the HomeController
         HomeController homeController = loader.getController();
         homeController.initData(userID, StudentTeacherID,  fullName, role);
-
         System.out.println(role);
     }
-
-//    @FXML
-//    void SignOutBtnOnClicked(ActionEvent event) {
-//        FXMLLoader loader = null;
-//        try {
-//            if (loginStage == null) {
-//                // If home stage is not created yet, create it
-//                loader = new FXMLLoader(getClass().getResource("Sign-In.fxml"));
-//                root = loader.load();
-//                loginScene = new Scene(root);
-//                loginStage = new Stage();
-//                loginStage.setScene(loginScene);
-//            }
-//            // Show the home stage
-//            loginStage.show();
-//
-//            // Pass any necessary data to the HomeController
-////        HomeController homeController = loader.getController();
-////        homeController.initData(fullName);  // You can create a method like initData to pass data
-//        } catch (Exception  e){
-//            e.printStackTrace();
-//        }
-//
-//    }
-//    @FXML
-//    void CourseUpdatesBtn1OnClicked(ActionEvent event) throws IOException {
-//        // Load the new FXML file
-//        root = FXMLLoader.load(getClass().getResource("CourseUpdates.fxml"));
-//        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        scene = new Scene(root);
-//        stage.setScene(scene);
-//        stage.show();
-//    }
 
     @FXML
     void CourseUpdatesBtn1OnClicked(ActionEvent event) throws IOException {
         // Load the new FXML file
-//        root = FXMLLoader.load(getClass().getResource("EditPersonalInfo.fxml"));
-//        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        scene = new Scene(root);
-//        stage.setScene(scene);
-//        stage.show();
-//
-//        // Pass any necessary data to the HomeController
-//        HomeController homeController = loader.getController();
-//        homeController.initData(fullName, role);
-//
-//        System.out.println(role);
         loader = new FXMLLoader(getClass().getResource("CourseUpdates.fxml"));
         root = loader.load();
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-
-//        // Pass any necessary data to the HomeController
-//        HomeController homeController = loader.getController();
-//        homeController.initData(userID, fullName, role);
-//
-//        System.out.println(role);
 
         // Pass any necessary data to the CourseUpdatesController using the set method
         CourseUpdatesController courseUpdatesController = loader.getController();

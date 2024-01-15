@@ -237,57 +237,27 @@ public class CourseUpdatesController {
         clearDueInputFields();
     }
 
+    private void insertTaskIntoDatabase(int courseID, String taskName, String taskDetail, LocalDate dueDate, LocalDate postDate, String postByName) {
+            // Create a SQL query to insert the task information into the database
+            String query = "INSERT INTO DueDates (CourseID, DueDateTitle, DueDateText, DueDate, PostDate, PostByName) VALUES (?, ?, ?, ?, ?, ?)";
+            try (Connection connection = JDBCConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-//    private void insertTaskIntoDatabase(int courseID, String taskName, String taskDetail, LocalDate dueDate, LocalDate postDate, String postByName) {
-//        try {
-////            // Create a SQL query to insert the task information into the database
-//////            String query = "INSERT INTO DueDates (DueDateTitle, DueDateText, DueDate) VALUES (taskName, taskDetail, dueDate)";
-////            String query = "INSERT INTO DueDates (DueDateTitle, DueDateText, DueDate) VALUES (?, ?, ?)";
-//
-//            // Create a SQL query to insert the task information into the database
-//            String query = "INSERT INTO DueDates (CourseID, DueDateTitle, DueDateText, DueDate, PostDate, PostByName) VALUES (?, ?, ?, ?, ?, ?)";
-//
-//            // Use a prepared statement to prevent SQL injection
-//            try (Connection connection = JDBCConnection.getConnection();
-//                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-//
-//                // Set the values for the parameters in the prepared statement
-//                preparedStatement.setInt(1, courseID);
-//                preparedStatement.setString(2, taskName);
-//                preparedStatement.setString(3, taskDetail);
-//                preparedStatement.setDate(4, Date.valueOf(dueDate));
-//                preparedStatement.setDate(5, Date.valueOf(postDate));
-//                preparedStatement.setString(6, postByName);
-//
-//                // Execute the query to insert the data
-//                preparedStatement.executeUpdate();
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            // Handle exceptions as needed
-//        }
-//    }
-private void insertTaskIntoDatabase(int courseID, String taskName, String taskDetail, LocalDate dueDate, LocalDate postDate, String postByName) {
-        // Create a SQL query to insert the task information into the database
-        String query = "INSERT INTO DueDates (CourseID, DueDateTitle, DueDateText, DueDate, PostDate, PostByName) VALUES (?, ?, ?, ?, ?, ?)";
-        try (Connection connection = JDBCConnection.getConnection();
-         PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            // Set the values for the parameters in the prepared statement
+            preparedStatement.setInt(1, courseID);
+            preparedStatement.setString(2, taskName);
+            preparedStatement.setString(3, taskDetail);
+            preparedStatement.setDate(4, Date.valueOf(dueDate));
+            preparedStatement.setDate(5, Date.valueOf(postDate));
+            preparedStatement.setString(6, postByName);
 
-        // Set the values for the parameters in the prepared statement
-        preparedStatement.setInt(1, courseID);
-        preparedStatement.setString(2, taskName);
-        preparedStatement.setString(3, taskDetail);
-        preparedStatement.setDate(4, Date.valueOf(dueDate));
-        preparedStatement.setDate(5, Date.valueOf(postDate));
-        preparedStatement.setString(6, postByName);
-
-        // Execute the query to insert the data
-        preparedStatement.executeUpdate();
-    } catch (SQLException e) {
-        e.printStackTrace();
-        // Handle exceptions as needed
+            // Execute the query to insert the data
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exceptions as needed
+        }
     }
-}
 
     private void clearDueInputFields() {
         // Clear the input fields after submitting
@@ -415,18 +385,6 @@ private void insertTaskIntoDatabase(int courseID, String taskName, String taskDe
 
     @FXML
     void EditTimeTableBtnOnClicked(ActionEvent event) throws IOException {
-//        // Load the new FXML file
-//        root = FXMLLoader.load(getClass().getResource("EditTimeTable.fxml"));
-//        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        scene = new Scene(root);
-//        stage.setScene(scene);
-//        stage.show();
-//
-//        // Pass any necessary data to the HomeController
-//        HomeController homeController = loader.getController();
-//        homeController.initData(fullName, role);
-
-
         loader = new FXMLLoader(getClass().getResource("EditTimeTable.fxml"));
         root = loader.load();
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -443,21 +401,6 @@ private void insertTaskIntoDatabase(int courseID, String taskName, String taskDe
 
     @FXML
     void ModifyDueDatesBtnOnClicked(ActionEvent event) throws IOException {
-        // Load the new FXML file
-//        root = FXMLLoader.load(getClass().getResource("ModifyDueDates.fxml"));
-//        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        scene = new Scene(root);
-//        stage.setScene(scene);
-//        stage.show();
-//
-//        // Pass any necessary data to the HomeController
-//        HomeController homeController = loader.getController();
-//        homeController.initData(fullName, role);
-//
-//
-//        // Update CourseUpdatesBtn1 visibility in HomeController
-//        updateCourseUpdatesBtnVisibility(role);
-//
         loader = new FXMLLoader(getClass().getResource("ModifyDueDates.fxml"));
         root = loader.load();
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -474,18 +417,6 @@ private void insertTaskIntoDatabase(int courseID, String taskName, String taskDe
 
     @FXML
     void EditPersonalBtnOnClicked(ActionEvent event) throws IOException {
-        // Load the new FXML file
-//        root = FXMLLoader.load(getClass().getResource("EditPersonalInfo.fxml"));
-//        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        scene = new Scene(root);
-//        stage.setScene(scene);
-//        stage.show();
-//
-//        // Pass any necessary data to the HomeController
-//        HomeController homeController = loader.getController();
-//        homeController.initData(fullName, role);
-//
-//        System.out.println(role);
         loader = new FXMLLoader(getClass().getResource("EditPersonalInfo.fxml"));
         root = loader.load();
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -500,52 +431,8 @@ private void insertTaskIntoDatabase(int courseID, String taskName, String taskDe
         System.out.println(role);
     }
 
-//    @FXML
-//    void SignOutBtnOnClicked(ActionEvent event) {
-//        FXMLLoader loader = null;
-//        try {
-//            if (loginStage == null) {
-//                // If home stage is not created yet, create it
-//                loader = new FXMLLoader(getClass().getResource("Sign-In.fxml"));
-//                root = loader.load();
-//                loginScene = new Scene(root);
-//                loginStage = new Stage();
-//                loginStage.setScene(loginScene);
-//            }
-//            // Show the home stage
-//            loginStage.show();
-//
-//            // Pass any necessary data to the HomeController
-////        HomeController homeController = loader.getController();
-////        homeController.initData(fullName);  // You can create a method like initData to pass data
-//        } catch (Exception  e){
-//            e.printStackTrace();
-//        }
-//
-//    }
-//    @FXML
-//    void CourseUpdatesBtn1OnClicked(ActionEvent event) throws IOException {
-//        // Load the new FXML file
-//        root = FXMLLoader.load(getClass().getResource("CourseUpdates.fxml"));
-//        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        scene = new Scene(root);
-//        stage.setScene(scene);
-//        stage.show();
-//    }
-
     @FXML
     void CourseUpdatesBtn1OnClicked(ActionEvent event) throws IOException {
-        // Load the new FXML file
-//        root = FXMLLoader.load(getClass().getResource("EditPersonalInfo.fxml"));
-//        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        scene = new Scene(root);
-//        stage.setScene(scene);
-//        stage.show();
-//
-//        // Pass any necessary data to the HomeController
-//        HomeController homeController = loader.getController();
-//        homeController.initData(fullName, role);
-//
 //        System.out.println(role);
         loader = new FXMLLoader(getClass().getResource("CourseUpdates.fxml"));
         root = loader.load();
@@ -553,12 +440,6 @@ private void insertTaskIntoDatabase(int courseID, String taskName, String taskDe
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-
-//        // Pass any necessary data to the HomeController
-//        HomeController homeController = loader.getController();
-//        homeController.initData(userID, fullName, role);
-//
-//        System.out.println(role);
 
         // Pass any necessary data to the CourseUpdatesController using the set method
         CourseUpdatesController courseUpdatesController = loader.getController();
@@ -571,8 +452,6 @@ private void insertTaskIntoDatabase(int courseID, String taskName, String taskDe
 
     }
 
-
-
     @FXML
     void SignOutBtnOnClicked(ActionEvent event) throws IOException {
         // Load the new FXML file
@@ -582,6 +461,5 @@ private void insertTaskIntoDatabase(int courseID, String taskName, String taskDe
         stage.setScene(scene);
         stage.show();
     }
-
 }
 
