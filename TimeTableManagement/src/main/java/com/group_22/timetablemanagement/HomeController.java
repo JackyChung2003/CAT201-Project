@@ -272,7 +272,10 @@ public class HomeController {
 
     @FXML
     void EditTimeTableBtnOnClicked(ActionEvent event) throws IOException {
+//        loader = new FXMLLoader(getClass().getResource("EditTimeTable.fxml"));{
+//        loader = new FXMLLoader(getClass().getResource("manualPage.fxml"));
         loader = new FXMLLoader(getClass().getResource("EditTimeTable.fxml"));
+//        loader = new FXMLLoader(getClass().getResource("manualPage.fxml"));
         root = loader.load();
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -280,8 +283,8 @@ public class HomeController {
         stage.show();
 
         // Pass any necessary data to the HomeController
-        HomeController homeController = loader.getController();
-        homeController.initData(userID, StudentTeacherID,  fullName, role);
+//        HomeController homeController = loader.getController();
+//        homeController.initData(userID, StudentTeacherID,  fullName, role);
 
         System.out.println(role);
     }
