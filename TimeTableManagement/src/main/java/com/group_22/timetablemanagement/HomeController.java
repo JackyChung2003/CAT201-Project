@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 
 import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
@@ -29,9 +30,6 @@ public class HomeController {
 
     @FXML
     private Button CustomizeTimeTableBtn;
-
-//    @FXML
-//    private ListView<?> DueDatesListView;
 
     @FXML
     private ListView<String> DueDatesListView;
@@ -56,33 +54,31 @@ public class HomeController {
 
     @FXML
     private Label WelcomeUserLabel;
-    private Stage loginStage;
-    private Scene loginScene;
 
     private Stage stage;
 
     private Scene scene;
 
     private Parent root;
-    // Store the active button
-    private Button activeButton;
 
     // Variable to hold userID
     private Integer userID;
-
 
     // Variable to hold user's full name
     private String fullName;
 
     // Variable to hold user's role
     private String role;
-    FXMLLoader loader = null;
+    
+    private Integer StudentTeacherID;
 
     private Connection connectDB;
-    private Integer StudentTeacherID;
+
+    FXMLLoader loader = null;
 
     @FXML
     void initialize() {
+        // Call the method to initialize course names
         ObservableList<String> dueDatesData = fetchDataFromDatabase();
 
         // Check if DueDatesListView is not null before setting items
@@ -255,9 +251,6 @@ public class HomeController {
     @FXML
     void CustomizeTimeTableBtnOnClicked(ActionEvent event) throws IOException {
         // Load the new FXML file
-        if ("Student".equals(role)) {
-            CourseUpdatesBtn1.setVisible(false);
-        }
         loader = new FXMLLoader(getClass().getResource("CustomizePage.fxml"));
         root = loader.load();
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -272,21 +265,22 @@ public class HomeController {
 
     @FXML
     void EditTimeTableBtnOnClicked(ActionEvent event) throws IOException {
-//        loader = new FXMLLoader(getClass().getResource("EditTimeTable.fxml"));{
-//        loader = new FXMLLoader(getClass().getResource("manualPage.fxml"));
-        loader = new FXMLLoader(getClass().getResource("EditTimeTable.fxml"));
-//        loader = new FXMLLoader(getClass().getResource("manualPage.fxml"));
-        root = loader.load();
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+                // Load the new FXML file
+                loader = new FXMLLoader(getClass().getResource("EditTimeTable.fxml"));
+                root = loader.load();
+                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
 
-        // Pass any necessary data to the HomeController
-//        HomeController homeController = loader.getController();
-//        homeController.initData(userID, StudentTeacherID,  fullName, role);
-
-        System.out.println(role);
+                // Pass any necessary data to the EditTimeTableController using the set method
+                EditTimeTableController editTimeTableController = loader.getController();
+                editTimeTableController.setUserData(userID, StudentTeacherID, fullName, role);
+                // Now initialize course names
+                editTimeTableController.initializeCourseInfo();
+                System.out.println(userID);
+                System.out.println(fullName);
+                System.out.println(role);  
     }
 
     @FXML
@@ -340,9 +334,7 @@ public class HomeController {
         System.out.println(userID);
         System.out.println(fullName);
         System.out.println(role);
-
     }
-
 
     @FXML
     void SignOutBtnOnClicked(ActionEvent event) throws IOException {
@@ -360,10 +352,7 @@ public class HomeController {
         }
     }
 
-
-
     public void initData(Integer userID, Integer StudentTeacherID, String fullName, String role) {
-//        this.fullName = fullName;
         this.StudentTeacherID = StudentTeacherID;
         this.userID = userID;
         this.fullName = fullName;

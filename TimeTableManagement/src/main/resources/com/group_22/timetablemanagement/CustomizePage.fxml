@@ -2,12 +2,19 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group_22.timetablemanagement.HomeController">
     <left>
@@ -22,7 +29,7 @@
                     </image>
                 </ImageView>
                 <Button fx:id="DashboardBtn" mnemonicParsing="false" onAction="#DashboardBtnOnClicked" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #0a8282; -fx-border-width: 2px  0px;" text="Dashboard" />
-                <Button fx:id="CustomizeTimeTableBtn1" mnemonicParsing="false" onAction="#CustomizeTimeTableBtnOnClicked" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #0D6E6E; -fx-border-color: #0a8282; -fx-border-width: 0px 0px 2px  0px;" text="Customize Time Table" textFill="WHITE">
+                <Button fx:id="CustomizeTimeTableBtn" mnemonicParsing="false" onAction="#CustomizeTimeTableBtnOnClicked" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #0D6E6E; -fx-border-color: #0a8282; -fx-border-width: 0px 0px 2px  0px;" text="Customize Time Table" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>
@@ -37,11 +44,82 @@
             </children>
         </VBox>
     </left>
-    <right>
-        <BorderPane prefHeight="480.0" prefWidth="570.0" BorderPane.alignment="CENTER">
-            <top>
-                <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-            </top>
-        </BorderPane>
-    </right>
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <BorderPane layoutX="40.0" layoutY="66.0" prefHeight="42.0" prefWidth="174.0">
+               <left>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" BorderPane.alignment="CENTER" />
+               </left>
+            </BorderPane>
+            <Text layoutX="226.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customize Time Table" />
+            <TabPane layoutY="74.0" prefHeight="115.0" prefWidth="569.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Course">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ColorPicker layoutX="70.0" layoutY="52.0" prefWidth="150.0" style="-fx-border-color: #3aa4a9;" />
+                              <Button layoutX="375.0" layoutY="32.0" mnemonicParsing="false" style="-fx-background-color: #014421;" text="Apply" textFill="WHITE" />
+                              <Text layoutX="18.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Color" />
+                              <ChoiceBox layoutX="70.0" layoutY="10.0" prefWidth="150.0" style="-fx-border-color: #3aa4a9;" />
+                              <Text layoutX="14.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Course" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="Background">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ColorPicker layoutX="70.0" layoutY="31.0" prefWidth="150.0" style="-fx-border-color: #3aa4a9;" />
+                              <Button layoutX="375.0" layoutY="32.0" mnemonicParsing="false" style="-fx-background-color: #014421;" text="Apply" textFill="WHITE" />
+                              <Text layoutX="18.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Color" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+            <Text layoutX="8.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Color:" />
+            <TabPane layoutY="298.0" prefHeight="115.0" prefWidth="569.0" tabClosingPolicy="UNAVAILABLE">
+               <tabs>
+                  <Tab text="Day">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Button layoutX="375.0" layoutY="32.0" mnemonicParsing="false" style="-fx-background-color: #014421;" text="Apply" textFill="WHITE" />
+                              <ChoiceBox layoutX="70.0" layoutY="10.0" prefWidth="150.0" style="-fx-border-color: #3aa4a9;" />
+                              <Text layoutX="20.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start" />
+                              <ChoiceBox layoutX="70.0" layoutY="50.0" prefWidth="150.0" style="-fx-border-color: #3aa4a9;" />
+                              <Text layoutX="22.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End" textAlignment="CENTER" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Time">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Button layoutX="375.0" layoutY="32.0" mnemonicParsing="false" style="-fx-background-color: #014421;" text="Apply" textFill="WHITE" />
+                              <Text layoutX="20.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start" />
+                              <Text layoutX="22.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End" textAlignment="CENTER" />
+                              <ChoiceBox layoutX="70.0" layoutY="10.0" prefWidth="150.0" style="-fx-border-color: #3aa4a9;" />
+                              <ChoiceBox layoutX="70.0" layoutY="50.0" prefWidth="150.0" style="-fx-border-color: #3aa4a9;" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+               </tabs>
+            </TabPane>
+            <SplitPane layoutY="197.0" orientation="VERTICAL" prefHeight="13.0" prefWidth="569.0" />
+            <SplitPane layoutY="273.0" orientation="VERTICAL" prefHeight="13.0" prefWidth="569.0" />
+            <SplitPane layoutY="30.0" orientation="VERTICAL" prefHeight="13.0" prefWidth="569.0" />
+            <SplitPane layoutY="419.0" orientation="VERTICAL" prefHeight="13.0" prefWidth="569.0" />
+            <Button layoutX="375.0" layoutY="229.0" mnemonicParsing="false" style="-fx-background-color: #014421;" text="Apply" textFill="WHITE" />
+            <ChoiceBox layoutX="70.0" layoutY="229.0" prefWidth="150.0" style="-fx-border-color: #3aa4a9;" />
+            <Text layoutX="14.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Interval" />
+         </children>
+      </Pane>
+   </center>
 </BorderPane>

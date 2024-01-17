@@ -10,8 +10,8 @@
   <name>TimeTableManagement</name>
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-<junit.version>5.9.2</junit.version>  </properties>
+  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  <junit.version>5.9.2</junit.version>  </properties>
 
   <dependencies>
     <dependency>
@@ -24,7 +24,7 @@
       <artifactId>javafx-fxml</artifactId>
       <version>21-ea+24</version>
     </dependency>
-<dependency>
+    <dependency>
       <groupId>org.controlsfx</groupId>
       <artifactId>controlsfx</artifactId>
       <version>11.1.2</version>
@@ -43,7 +43,7 @@
       <artifactId>bootstrapfx-core</artifactId>
       <version>0.4.0</version>
     </dependency>
-<dependency>
+    <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
       <version>${junit.version}</version>
@@ -54,7 +54,13 @@
       <artifactId>junit-jupiter-engine</artifactId>
       <version>${junit.version}</version>
       <scope>test</scope>
-    </dependency>  </dependencies>
+    </dependency>
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>8.0.23</version>
+    </dependency>
+  </dependencies>
 
   <build>
     <plugins>

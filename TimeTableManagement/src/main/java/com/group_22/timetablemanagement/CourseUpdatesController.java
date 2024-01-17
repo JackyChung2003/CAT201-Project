@@ -152,7 +152,7 @@ public class CourseUpdatesController {
         initializeCourseNames();
     }
 
-    public void setUserData(Integer userID, Integer StudentTeacherID,String fullName, String role) {
+    public void setUserData(Integer userID, Integer StudentTeacherID, String fullName, String role) {
         this.StudentTeacherID = StudentTeacherID;
         this.userID = userID;
         this.fullName = fullName;
@@ -356,16 +356,7 @@ public class CourseUpdatesController {
 
     @FXML
     void CustomizeTimeTableBtnOnClicked(ActionEvent event) throws IOException {
-//        // Load the new FXML file
-//        root = FXMLLoader.load(getClass().getResource("CustomizePage.fxml"));
-//        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        scene = new Scene(root);
-//        stage.setScene(scene);
-//        stage.show();
         // Load the new FXML file
-        if ("Student".equals(role)) {
-            CourseUpdatesBtn1.setVisible(false);
-        }
         loader = new FXMLLoader(getClass().getResource("CustomizePage.fxml"));
         root = loader.load();
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -376,9 +367,6 @@ public class CourseUpdatesController {
         // Pass any necessary data to the HomeController
         HomeController homeController = loader.getController();
         homeController.initData(userID, StudentTeacherID, fullName, role);
-
-
-
 
         System.out.println(role);
     }
@@ -392,10 +380,13 @@ public class CourseUpdatesController {
         stage.setScene(scene);
         stage.show();
 
-        // Pass any necessary data to the HomeController
-        HomeController homeController = loader.getController();
-        homeController.initData(userID, StudentTeacherID, fullName, role);
-
+        // Pass any necessary data to the EditTimeTableController using the set method
+        EditTimeTableController editTimeTableController = loader.getController();
+        editTimeTableController.setUserData(userID, StudentTeacherID, fullName, role);
+        // Now initialize course names
+        editTimeTableController.initializeCourseInfo();
+        System.out.println(userID);
+        System.out.println(fullName);
         System.out.println(role);
     }
 
@@ -449,7 +440,6 @@ public class CourseUpdatesController {
         System.out.println(userID);
         System.out.println(fullName);
         System.out.println(role);
-
     }
 
     @FXML

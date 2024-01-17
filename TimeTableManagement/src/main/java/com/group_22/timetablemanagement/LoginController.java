@@ -71,7 +71,7 @@ public class LoginController {
     private Integer getStudentTeacherID(Integer studentID, Integer teacherID) {
         return (studentID != null) ? studentID : teacherID;
     }
-
+    
     public void SignInBtn1OnAction (ActionEvent event) {
 
         String emailText = emailAddress1.getText().trim();

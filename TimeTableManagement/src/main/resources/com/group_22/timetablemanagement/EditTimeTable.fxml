@@ -5,11 +5,10 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -66,7 +65,7 @@
                    <items>
                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="718.0">
                            <children>
-                               <TableView fx:id="timetable" layoutX="-1.0" layoutY="-1.0" prefHeight="242.0" prefWidth="720.0">
+                               <TableView fx:id="timetable" layoutX="-1.0" layoutY="-1.0" prefHeight="243.0" prefWidth="570.0">
                                    <opaqueInsets>
                                        <Insets />
                                    </opaqueInsets>
@@ -74,11 +73,6 @@
                                        <TableColumn fx:id="weekdaysColumn" prefWidth="75.0" text="Weekdays" />
                                    </columns>
                                </TableView>
-                               <ScrollBar layoutX="707.0" layoutY="-1.0" orientation="VERTICAL" prefHeight="239.0" prefWidth="12.0">
-                                   <padding>
-                                       <Insets bottom="10.0" />
-                                   </padding>
-                               </ScrollBar>
                            </children></AnchorPane>
                    </items>
                </SplitPane>
@@ -89,10 +83,10 @@
                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="718.0">
                                    <children>
                                        <Label layoutX="14.0" layoutY="29.0" text="FROM" textFill="#014421" />
-                                       <Label layoutX="23.0" layoutY="69.0" text="TO" textFill="#014421" />
+                                       <Label layoutX="23.0" layoutY="68.0" text="TO" textFill="#014421" />
                                        <Button fx:id="btUpdateSchoolDay" layoutX="599.0" layoutY="45.0" mnemonicParsing="false" onAction="#updateSchoolDay" prefWidth="60.0" style="-fx-background-color: #014421;" text="Update" textFill="WHITE" AnchorPane.rightAnchor="50.0" />
-                                       <ComboBox fx:id="cbSchoolDayStartsFrom" layoutX="48.0" layoutY="24.0" prefWidth="150.0" promptText="-- Select --" style="-fx-border-color: #33a4a9;" AnchorPane.leftAnchor="48.0" />
-                                       <ComboBox fx:id="cbSchoolDayStartsTo" layoutX="58.0" layoutY="63.0" prefWidth="150.0" promptText="-- Select --" style="-fx-border-color: #3aa4a9;" />
+                                       <ComboBox fx:id="cbSchoolDayStartsFrom" layoutX="66.0" layoutY="24.0" prefWidth="150.0" style="-fx-border-color: #33a4a9;" />
+                                       <ComboBox fx:id="cbSchoolDayStartsTo" layoutX="66.0" layoutY="63.0" prefWidth="150.0" style="-fx-border-color: #3aa4a9;" />
                                        <Label fx:id="lbSchoolDayStartsFrom" layoutX="229.0" layoutY="29.0" prefHeight="18.0" prefWidth="350.0" />
                                        <Label fx:id="lbSchoolDayStartsTo" layoutX="229.0" layoutY="68.0" prefHeight="18.0" prefWidth="350.0" />
                                    </children>
@@ -104,18 +98,17 @@
                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                    <children>
                                        <Label layoutX="23.0" layoutY="29.0" text="FROM" textFill="#014421" />
-                                       <Label layoutX="168.0" layoutY="29.0" text="TO" textFill="#014421" AnchorPane.leftAnchor="168.0" />
+                                       <Label layoutX="132.0" layoutY="29.0" text="TO" textFill="#014421" AnchorPane.leftAnchor="132.0" />
                                        <Button fx:id="btUpdateStudyTime" layoutX="599.0" layoutY="45.0" mnemonicParsing="false" onAction="#updateStudyTime" prefWidth="60.0" style="-fx-background-color: #014421;" text="Update" textFill="WHITE" AnchorPane.rightAnchor="50.0" />
-                                       <TextField fx:id="tfStudyTimeStartsFromHours" layoutX="77.0" layoutY="24.0" prefWidth="35.0" style="-fx-border-color: #33a4a9;" />
-                                       <Text layoutX="111.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":" AnchorPane.leftAnchor="111.0" />
-                                       <TextField fx:id="tfStudyTimeStartsFromMinutes" layoutX="123.0" layoutY="24.0" prefWidth="35.0" style="-fx-border-color: #33a4a9;" AnchorPane.leftAnchor="123.0" />
-                                       <TextField fx:id="tfStudyTimeStartsToHours" layoutX="194.0" layoutY="24.0" prefWidth="35.0" style="-fx-border-color: #33a4a9;" AnchorPane.leftAnchor="194.0" />
-                                       <Text layoutX="238.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":" AnchorPane.leftAnchor="238.0" />
-                                       <TextField fx:id="tfStudyTimeStartsToMinutes" layoutX="252.0" layoutY="23.0" prefWidth="35.0" style="-fx-border-color: #33a4a9;" AnchorPane.leftAnchor="252.0" />
-                                       <Label fx:id="lbStudyTimeStartsTo" layoutX="297.0" layoutY="27.0" prefHeight="18.0" prefWidth="300.0" />
                                        <Label layoutX="14.0" layoutY="70.0" text="INTERVAL" textFill="#014421" />
-                                       <ComboBox fx:id="cbClassTimeInterval" layoutX="67.0" layoutY="65.0" prefWidth="150.0" promptText="-- Select --" style="-fx-border-color: #3aa4a9;" AnchorPane.leftAnchor="67.0" />
-                                       <Label fx:id="lbStudyTimeStartsFromTo" layoutX="311.0" layoutY="28.0" prefHeight="18.0" prefWidth="300.0" />
+                                       <ComboBox fx:id="cbClassTimeInterval" layoutX="67.0" layoutY="65.0" prefWidth="150.0" style="-fx-border-color: #3aa4a9;" AnchorPane.leftAnchor="67.0" />
+                              <Spinner fx:id="SpinnerStudyTimeFromHours" editable="true" layoutX="77.0" layoutY="25.0" prefWidth="55.0" style="-fx-border-color: #3aa4a9;" />
+                              <Spinner fx:id="SpinnerStudyTimeToHours" editable="true" layoutX="158.0" layoutY="25.0" prefWidth="55.0" style="-fx-border-color: #3aa4a9;" AnchorPane.leftAnchor="158.0" />
+                              <Text fill="RED" layoutX="240.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Note: Study Time is default for 24HR." wrappingWidth="191.73662757873535">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Text>
                                    </children>
                                </AnchorPane>
                            </content>
@@ -126,21 +119,15 @@
                                    <children>
                                        <Button fx:id="btUpdateClassInfo" layoutX="599.0" layoutY="45.0" mnemonicParsing="false" onAction="#updateClassInfo" prefWidth="60.0" style="-fx-background-color: #014421;" text="Update" textFill="WHITE" AnchorPane.rightAnchor="50.0" />
                                        <Label layoutX="14.0" layoutY="28.0" text="CLASS" textFill="#014421" />
-                                       <Label layoutX="14.0" layoutY="69.0" text="FROM" textFill="#014421" />
-                                       <Label layoutX="151.0" layoutY="69.0" text="TO" textFill="#014421" AnchorPane.leftAnchor="151.0" />
-                                       <TextField fx:id="tfClassInfoCode" alignment="CENTER" layoutX="47.0" layoutY="23.0" prefWidth="135.0" promptText="Enter Your Class Code" style="-fx-border-color: #3aa4a9;" AnchorPane.leftAnchor="47.0" />
-                                       <TextField fx:id="tfClassInfoFromHours" layoutX="57.0" layoutY="64.0" prefWidth="35.0" style="-fx-border-color: #33a4a9;" />
-                                       <Text layoutX="92.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":" AnchorPane.leftAnchor="92.0" />
-                                       <TextField fx:id="tfClassInfoFromMinutes" layoutX="106.0" layoutY="64.0" prefWidth="35.0" style="-fx-border-color: #33a4a9;" AnchorPane.leftAnchor="106.0" />
-                                       <TextField fx:id="tfClassInfoToHours" layoutX="177.0" layoutY="64.0" prefWidth="35.0" style="-fx-border-color: #33a4a9;" AnchorPane.leftAnchor="177.0" />
-                                       <Text layoutX="224.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":" AnchorPane.leftAnchor="224.0" />
-                                       <TextField fx:id="tfClassInfoToMinutes" layoutX="236.0" layoutY="64.0" prefWidth="35.0" style="-fx-border-color: #33a4a9;" AnchorPane.leftAnchor="236.0" />
-                                       <Label fx:id="lbClassInfoCode" layoutX="191.0" layoutY="14.0" prefHeight="18.0" prefWidth="180.0" AnchorPane.leftAnchor="191.0" />
-                                       <Label fx:id="lbClassInfoFromTo" layoutX="192.0" layoutY="36.0" prefHeight="18.0" prefWidth="300.0" AnchorPane.leftAnchor="192.0" />
-                                       <Label layoutX="281.0" layoutY="69.0" text="ON" textFill="#014421" AnchorPane.leftAnchor="281.0" />
-                                       <ComboBox fx:id="cbClassInfoActualDay" layoutX="309.0" layoutY="64.0" prefWidth="150.0" promptText="-- Select --" style="-fx-border-color: #33a4a9;" AnchorPane.leftAnchor="309.0" />
-                              <ComboBox fx:id="ClassStartDropDownBtn" layoutX="224.0" layoutY="23.0" onAction="#onClassStartDropDownClicked" prefWidth="150.0" promptText="-- Select --" style="-fx-border-color: #33a4a9;" />
-                              <ComboBox fx:id="ClassEndDropDownBtn" layoutX="393.0" layoutY="9.0" prefWidth="150.0" promptText="-- Select --" style="-fx-border-color: #33a4a9;" />
+                                       <Label layoutX="17.0" layoutY="69.0" text="TIME" textFill="#014421" />
+                                       <Label fx:id="lbClassInfoCode" alignment="CENTER" layoutX="245.0" layoutY="10.0" prefHeight="44.0" prefWidth="169.0" text="Note: If show &quot;No course found&quot;, please register a course first." textFill="RED" wrapText="true">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font></Label>
+                                       <Label layoutX="207.0" layoutY="69.0" text="ON" textFill="#014421" AnchorPane.leftAnchor="207.0" />
+                                       <ComboBox fx:id="cbClassInfoActualDay" layoutX="235.0" layoutY="64.0" prefWidth="150.0" style="-fx-border-color: #33a4a9;" AnchorPane.leftAnchor="235.0" />
+                              <ComboBox fx:id="StudyTimeDropDownBtn" layoutX="57.0" layoutY="64.0" onAction="#onClassStartDropDownClicked" prefWidth="150.0" style="-fx-border-color: #33a4a9;" />
+                              <ComboBox fx:id="cbClassInfoClassCode" layoutX="57.0" layoutY="23.0" prefWidth="150.0" style="-fx-border-color: #33a4a9;" />
                                    </children>
                                </AnchorPane>
                            </content>
@@ -149,11 +136,12 @@
                </Accordion>
                <AnchorPane style="-fx-background-color: #3aa4a9;">
                    <children>
-                       <Label layoutX="304.0" layoutY="12.0" text="Timetable Preview" textAlignment="CENTER" textFill="WHITE">
+                       <Label layoutX="228.0" layoutY="12.0" text="Timetable Preview" textAlignment="CENTER" textFill="WHITE">
                            <font>
                                <Font size="14.0" />
                            </font>
                        </Label>
+                  <Button fx:id="SaveBtn" layoutX="505.0" layoutY="7.0" mnemonicParsing="false" prefWidth="55.0" style="-fx-background-color: #014421;" text="Save" textFill="WHITE" />
                    </children>
                </AnchorPane>
            </children>
