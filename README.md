@@ -1,4 +1,4 @@
-# CAT201-Project
+# CAT201-Project (Time Table Management System)
 
 ## GUI Installation Instructions
 
