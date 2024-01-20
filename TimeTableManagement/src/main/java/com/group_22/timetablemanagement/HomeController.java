@@ -277,10 +277,12 @@ public class HomeController {
                 EditTimeTableController editTimeTableController = loader.getController();
                 editTimeTableController.setUserData(userID, StudentTeacherID, fullName, role);
                 // Now initialize course names
+                editTimeTableController.initializeNotExistsCourseInfo();
                 editTimeTableController.initializeCourseInfo();
-                System.out.println(userID);
-                System.out.println(fullName);
-                System.out.println(role);  
+                System.out.println("EditTimeTableBtn is clicked");
+                System.out.println("User ID:" + userID);
+                System.out.println("Name:" + fullName);
+                System.out.println("Role:" + role);
     }
 
     @FXML

@@ -57,15 +57,15 @@
            </columnConstraints>
            <rowConstraints>
                <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-               <RowConstraints minHeight="10.0" prefHeight="240.0" vgrow="SOMETIMES" />
-               <RowConstraints minHeight="10.0" prefHeight="192.0" vgrow="SOMETIMES" />
+               <RowConstraints maxHeight="195.20001220703125" minHeight="10.0" prefHeight="190.4000244140625" vgrow="SOMETIMES" />
+               <RowConstraints maxHeight="250.3999755859375" minHeight="10.0" prefHeight="250.3999755859375" vgrow="SOMETIMES" />
            </rowConstraints>
            <children>
                <SplitPane orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" GridPane.rowIndex="1">
                    <items>
-                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="718.0">
+                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="567.0">
                            <children>
-                               <TableView fx:id="timetable" layoutX="-1.0" layoutY="-1.0" prefHeight="243.0" prefWidth="570.0">
+                               <TableView fx:id="timetable" layoutX="-1.0" layoutY="-1.0" prefHeight="200.0" prefWidth="570.0">
                                    <opaqueInsets>
                                        <Insets />
                                    </opaqueInsets>
@@ -78,17 +78,31 @@
                </SplitPane>
                <Accordion GridPane.rowIndex="2">
                    <panes>
-                       <TitledPane animated="false" prefWidth="720.0" text="MY SCHOOL DAY STARTS" textFill="#014421">
+                  <TitledPane animated="false" text="I WANT TO ENROLL">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Label layoutX="14.0" layoutY="65.0" text="CLASS" textFill="#014421" />
+                              <ComboBox fx:id="cbEnrollClass" layoutX="48.0" layoutY="61.0" prefWidth="150.0" style="-fx-border-color: #3aa4a9;" AnchorPane.leftAnchor="48.0" />
+                              <Button fx:id="btEnrollClass" layoutX="447.0" layoutY="61.0" mnemonicParsing="false" onAction="#enrollClass" prefWidth="60.0" style="-fx-background-color: #014421;" text="Enroll" textFill="WHITE" AnchorPane.rightAnchor="60.200000000000045" />
+                              <Label alignment="CENTER" layoutX="241.0" layoutY="40.0" prefHeight="68.0" prefWidth="168.0" text="Note: If show &quot;No course found&quot;, there is no available class to be enrolled, can directly go to the next section." textFill="RED" wrapText="true">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+                       <TitledPane animated="false" text="MY SCHOOL DAY STARTS" textFill="#014421">
                            <content>
                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="718.0">
                                    <children>
-                                       <Label layoutX="14.0" layoutY="29.0" text="FROM" textFill="#014421" />
-                                       <Label layoutX="23.0" layoutY="68.0" text="TO" textFill="#014421" />
-                                       <Button fx:id="btUpdateSchoolDay" layoutX="599.0" layoutY="45.0" mnemonicParsing="false" onAction="#updateSchoolDay" prefWidth="60.0" style="-fx-background-color: #014421;" text="Update" textFill="WHITE" AnchorPane.rightAnchor="50.0" />
-                                       <ComboBox fx:id="cbSchoolDayStartsFrom" layoutX="66.0" layoutY="24.0" prefWidth="150.0" style="-fx-border-color: #33a4a9;" />
-                                       <ComboBox fx:id="cbSchoolDayStartsTo" layoutX="66.0" layoutY="63.0" prefWidth="150.0" style="-fx-border-color: #3aa4a9;" />
-                                       <Label fx:id="lbSchoolDayStartsFrom" layoutX="229.0" layoutY="29.0" prefHeight="18.0" prefWidth="350.0" />
-                                       <Label fx:id="lbSchoolDayStartsTo" layoutX="229.0" layoutY="68.0" prefHeight="18.0" prefWidth="350.0" />
+                                       <Label layoutX="14.0" layoutY="45.0" text="FROM" textFill="#014421" />
+                                       <Label layoutX="23.0" layoutY="84.0" text="TO" textFill="#014421" />
+                                       <Button fx:id="btUpdateSchoolDay" layoutX="447.0" layoutY="61.0" mnemonicParsing="false" onAction="#updateSchoolDay" prefWidth="60.0" style="-fx-background-color: #014421;" text="Update" textFill="WHITE" AnchorPane.rightAnchor="60.200000000000045" />
+                                       <ComboBox fx:id="cbSchoolDayStartsFrom" layoutX="48.0" layoutY="40.0" prefWidth="150.0" style="-fx-border-color: #33a4a9;" AnchorPane.leftAnchor="48.0" />
+                                       <ComboBox fx:id="cbSchoolDayStartsTo" layoutX="57.0" layoutY="79.0" prefWidth="150.0" style="-fx-border-color: #3aa4a9;" />
                                    </children>
                                </AnchorPane>
                            </content>
@@ -97,14 +111,14 @@
                            <content>
                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                    <children>
-                                       <Label layoutX="23.0" layoutY="29.0" text="FROM" textFill="#014421" />
-                                       <Label layoutX="132.0" layoutY="29.0" text="TO" textFill="#014421" AnchorPane.leftAnchor="132.0" />
-                                       <Button fx:id="btUpdateStudyTime" layoutX="599.0" layoutY="45.0" mnemonicParsing="false" onAction="#updateStudyTime" prefWidth="60.0" style="-fx-background-color: #014421;" text="Update" textFill="WHITE" AnchorPane.rightAnchor="50.0" />
-                                       <Label layoutX="14.0" layoutY="70.0" text="INTERVAL" textFill="#014421" />
-                                       <ComboBox fx:id="cbClassTimeInterval" layoutX="67.0" layoutY="65.0" prefWidth="150.0" style="-fx-border-color: #3aa4a9;" AnchorPane.leftAnchor="67.0" />
-                              <Spinner fx:id="SpinnerStudyTimeFromHours" editable="true" layoutX="77.0" layoutY="25.0" prefWidth="55.0" style="-fx-border-color: #3aa4a9;" />
-                              <Spinner fx:id="SpinnerStudyTimeToHours" editable="true" layoutX="158.0" layoutY="25.0" prefWidth="55.0" style="-fx-border-color: #3aa4a9;" AnchorPane.leftAnchor="158.0" />
-                              <Text fill="RED" layoutX="240.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Note: Study Time is default for 24HR." wrappingWidth="191.73662757873535">
+                                       <Label layoutX="23.0" layoutY="44.0" text="FROM" textFill="#014421" />
+                                       <Label layoutX="132.0" layoutY="43.0" text="TO" textFill="#014421" AnchorPane.leftAnchor="132.0" />
+                                       <Button fx:id="btUpdateStudyTime" layoutX="447.0" layoutY="61.0" mnemonicParsing="false" onAction="#updateStudyTime" prefWidth="60.0" style="-fx-background-color: #014421;" text="Update" textFill="WHITE" AnchorPane.rightAnchor="60.200000000000045" />
+                                       <Label layoutX="14.0" layoutY="85.0" text="INTERVAL" textFill="#014421" />
+                                       <ComboBox fx:id="cbClassTimeInterval" layoutX="67.0" layoutY="80.0" prefWidth="146.0" style="-fx-border-color: #3aa4a9;" AnchorPane.leftAnchor="67.0" />
+                              <Spinner fx:id="SpinnerStudyTimeFromHours" editable="true" layoutX="77.0" layoutY="37.0" prefWidth="55.0" style="-fx-border-color: #3aa4a9;" />
+                              <Spinner fx:id="SpinnerStudyTimeToHours" editable="true" layoutX="158.0" layoutY="38.0" prefWidth="55.0" style="-fx-border-color: #3aa4a9;" AnchorPane.leftAnchor="158.0" />
+                              <Text fill="RED" layoutX="263.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Note: Study Time is default for 24HR." wrappingWidth="139.73662757873535">
                                  <font>
                                     <Font name="System Italic" size="12.0" />
                                  </font>
@@ -117,15 +131,16 @@
                            <content>
                                <AnchorPane fx:id="anchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                    <children>
-                                       <Button fx:id="btUpdateClassInfo" layoutX="599.0" layoutY="45.0" mnemonicParsing="false" onAction="#updateClassInfo" prefWidth="60.0" style="-fx-background-color: #014421;" text="Update" textFill="WHITE" AnchorPane.rightAnchor="50.0" />
+                                       <Button fx:id="btUpdateClassInfo" layoutX="447.0" layoutY="61.0" mnemonicParsing="false" onAction="#updateClassInfo" prefWidth="60.0" style="-fx-background-color: #014421;" text="Update" textFill="WHITE" AnchorPane.rightAnchor="60.200000000000045" />
                                        <Label layoutX="14.0" layoutY="28.0" text="CLASS" textFill="#014421" />
                                        <Label layoutX="17.0" layoutY="69.0" text="TIME" textFill="#014421" />
-                                       <Label fx:id="lbClassInfoCode" alignment="CENTER" layoutX="245.0" layoutY="10.0" prefHeight="44.0" prefWidth="169.0" text="Note: If show &quot;No course found&quot;, please register a course first." textFill="RED" wrapText="true">
+                                       <Label alignment="CENTER" layoutX="244.0" layoutY="15.0" prefHeight="44.0" prefWidth="169.0" text="Note: If show &quot;No course found&quot;, please enroll a course first." textFill="RED" wrapText="true">
                                  <font>
                                     <Font name="System Italic" size="12.0" />
-                                 </font></Label>
-                                       <Label layoutX="207.0" layoutY="69.0" text="ON" textFill="#014421" AnchorPane.leftAnchor="207.0" />
-                                       <ComboBox fx:id="cbClassInfoActualDay" layoutX="235.0" layoutY="64.0" prefWidth="150.0" style="-fx-border-color: #33a4a9;" AnchorPane.leftAnchor="235.0" />
+                                 </font>
+                              </Label>
+                                       <Label layoutX="21.0" layoutY="110.0" text="ON" textFill="#014421" />
+                                       <ComboBox fx:id="cbClassInfoActualDay" layoutX="57.0" layoutY="105.0" prefWidth="150.0" style="-fx-border-color: #33a4a9;" />
                               <ComboBox fx:id="StudyTimeDropDownBtn" layoutX="57.0" layoutY="64.0" onAction="#onClassStartDropDownClicked" prefWidth="150.0" style="-fx-border-color: #33a4a9;" />
                               <ComboBox fx:id="cbClassInfoClassCode" layoutX="57.0" layoutY="23.0" prefWidth="150.0" style="-fx-border-color: #33a4a9;" />
                                    </children>
@@ -141,7 +156,6 @@
                                <Font size="14.0" />
                            </font>
                        </Label>
-                  <Button fx:id="SaveBtn" layoutX="505.0" layoutY="7.0" mnemonicParsing="false" prefWidth="55.0" style="-fx-background-color: #014421;" text="Save" textFill="WHITE" />
                    </children>
                </AnchorPane>
            </children>

@@ -2,7 +2,6 @@ package com.group_22.timetablemanagement;
 
 public class CourseInfo {
     private String courseName;
-
     private String courseCode;
     private int courseId;
 

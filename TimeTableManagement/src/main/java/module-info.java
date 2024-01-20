@@ -1,6 +1,7 @@
 module com.group_22.timetablemanagement {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.base;
     requires org.controlsfx.controls;
     requires net.synedra.validatorfx;
     requires org.kordamp.bootstrapfx.core;
