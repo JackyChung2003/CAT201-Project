@@ -2,17 +2,16 @@ package com.group_22.timetablemanagement;
 
 public class CourseInfo {
     private String courseName;
-
     private String courseCode;
     private int courseId;
 
+    // Constructor for the ChoiceBox in CourseUpdatesController
     public CourseInfo(int courseId,  String courseCode, String courseName) {
         this.courseCode = courseCode;
         this.courseName = courseName;
         this.courseId = courseId;
         System.out.println(courseName);
         System.out.println(courseId);
-
     }
 
     public String getCourseName() {
@@ -27,8 +26,14 @@ public class CourseInfo {
         return courseId;
     }
 
+//    @Override
+//    public String toString() {
+//        return courseName; // Display course name in the ChoiceBox
+//    }
+
     @Override
     public String toString() {
-        return courseName; // Display course name in the ChoiceBox
+        // Override toString method to display both code and name
+        return courseCode + " - " + courseName;
     }
 }

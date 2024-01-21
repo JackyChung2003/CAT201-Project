@@ -1,25 +1,25 @@
 package com.group_22.timetablemanagement;
 
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 
 import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class HomeController {
@@ -56,6 +56,13 @@ public class HomeController {
 
     @FXML
     private Label WelcomeUserLabel;
+
+    @FXML
+    private TableView<SchoolDay> timetable;
+
+    @FXML
+    private TableColumn<SchoolDay, String> weekdaysColumn;
+
     private Stage loginStage;
     private Scene loginScene;
 
@@ -81,9 +88,23 @@ public class HomeController {
     private Connection connectDB;
     private Integer StudentTeacherID;
 
+    private int startDayIndex = 0;
+    private int endDayIndex = 0;
+    private int endTimeIndex = 0;
+    private int startTimeIndex = 0;
+    private int timeInterval = 0;
+
+
+    List<TimetableClassData> timetableClassDataList = new ArrayList<>();
+
+    private ObservableList<SchoolDay> schoolDay = FXCollections.observableArrayList();
+
+    List<TableColumn<SchoolDay, String>> createdColumns = new ArrayList<>();
+
     @FXML
     void initialize() {
         ObservableList<String> dueDatesData = fetchDataFromDatabase();
+
 
         // Check if DueDatesListView is not null before setting items
         if (DueDatesListView != null) {
@@ -101,6 +122,15 @@ public class HomeController {
         } else {
             System.out.println("UpdateListView is null");
         }
+
+        if (weekdaysColumn != null) {
+            weekdaysColumn.setCellValueFactory(new PropertyValueFactory<>("day"));
+        } else {
+            System.out.println("weekdaysColumn is null");
+        }
+
+        // Initialize timetable data
+        initializeTimetableData();
     }
 
     private ObservableList<String> fetchDataFromDatabase() {
@@ -229,9 +259,309 @@ public class HomeController {
         return dataList;
     }
 
+    private void initializeTimetableData() {
+        // Ensure that userID is set
+        if (userID == null) {
+            System.out.println("User ID is null. Timetable data cannot be initialized.");
+            return;
+        }
+
+        initializeTimetableDayFromDatabase();
+
+        initializeTimetableTimeFromDatabase();
+
+        initializeTimetableClassFromDatabase();
+    }
+
+    public void fetchTimetableData() {
+//        loadTimetableDayFromDatabase();
+        initializeTimetableDayFromDatabase();
+        initializeTimetableTimeFromDatabase();
+        initializeTimetableClassFromDatabase();
+
+    }
+
+    void initializeTimetableDayFromDatabase() {
+        // Fetch timetable data  from the database
+        // Adjust the SQL query based on your database schema
+        String query = "SELECT * FROM TimetableDays WHERE UserID = ?";
+
+        try (Connection connection = JDBCConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setInt(1, userID);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Clear existing timetable data
+//            timetable.getItems().clear();
+//            timetable.getColumns().clear();
+
+            // Process the resultSet and populate your timetable
+            while (resultSet.next()) {
+                startDayIndex = resultSet.getInt("StartDay");
+                endDayIndex = resultSet.getInt("EndDay");
+
+                System.out.println("initial SQL: Start day" + startDayIndex);
+                System.out.println("initial SQL: End day" + endDayIndex);
+            }
+            // Use setTimetableDayData method to populate the timetable
+            setTimetableDayData(startDayIndex, endDayIndex);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        timetable.refresh();
+    }
+
+    // Method to set timetable data based on the retrieved information
+    void setTimetableDayData(int startDayIndex, int endDayIndex) {
+
+        schoolDay.clear();
+
+        String[] days = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+
+        // Validate indices to ensure they are within the expected range
+        if (startDayIndex >= 0 && startDayIndex < days.length && endDayIndex >= 0 && endDayIndex < days.length) {
+            for (int i = startDayIndex; i <= endDayIndex; i++) {
+                SchoolDay newSchoolDay = new SchoolDay(days[i]);
+                schoolDay.add(newSchoolDay);
+                System.out.println(newSchoolDay);
+            }
+
+            timetable.setItems(schoolDay);
+            timetable.refresh();
+            System.out.println("Done Day");
+
+            // Update the items in cbClassInfoActualDay
+            List<String> allDays = Arrays.asList("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
+            List<String> selectedSchoolDays = allDays.subList(startDayIndex, endDayIndex + 1);
+            // cbClassInfoActualDay.getItems().setAll(selectedSchoolDays);
+
+            // Store selected school days in the database if needed
+            // storeSchoolDaysInDatabase(userID, startDayIndex, endDayIndex);
+            // updateOrInsertSchoolDaysInDatabase(userID, startDayIndex, endDayIndex);
+
+            timetable.refresh();
+        } else {
+            System.out.println("Invalid startDayIndex or endDayIndex");
+        }
+
+//        for (int i = startDayIndex; i <= endDayIndex; i++) {
+//            SchoolDay newSchoolDay = new SchoolDay(days[i]);
+//            schoolDay.add(newSchoolDay);
+//            System.out.println(newSchoolDay);
+//        }
+//
+//        timetable.setItems(schoolDay);
+//        timetable.refresh();
+//        System.out.println("Done Day");
+//
+//        // Update the items in cbClassInfoActualDay
+//        List<String> allDays = Arrays.asList("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
+////        int fromIndex = allDays.indexOf(cbSchoolDayStartsFrom.getValue());
+////        int toIndex = allDays.indexOf(cbSchoolDayStartsTo.getValue());
+////        List<String> schoolDays = allDays.subList(fromIndex, toIndex + 1);
+//        List<String> schoolDays = allDays.subList(startDayIndex, endDayIndex + 1);
+////        cbClassInfoActualDay.getItems().setAll(schoolDays);
+//
+//        // Store selected school days in the database
+////        storeSchoolDaysInDatabase(userID, fromIndex, toIndex);
+////        updateOrInsertSchoolDaysInDatabase(userID, startDayIndex, endDayIndex);
+//
+//        timetable.refresh();
+    }
+
+    SchoolDay createEmptySchoolDay() {
+        return new SchoolDay("");
+    }
+
+    void initializeTimetableTimeFromDatabase() {
+        // Fetch timetable time  from the database
+        String query = "SELECT * FROM TimetableTime WHERE UserID = ?";
+
+        try (Connection connection = JDBCConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setInt(1, userID);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Process the resultSet and populate your timetable
+            while (resultSet.next()) {
+                startTimeIndex = resultSet.getInt("StartTime");
+                endTimeIndex = resultSet.getInt("EndTime");
+                timeInterval = resultSet.getInt("IntervalTime");
+
+                System.out.println("initial SQL: Start time" + startTimeIndex);
+                System.out.println("initial SQL: End time" + endTimeIndex);
+                System.out.println("initial SQL: time interval" + timeInterval);
+            }
+            // Use setTimetableDayData method to populate the timetable
+            setTimetableTimeData(startTimeIndex, endTimeIndex, timeInterval);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setTimetableTimeData(int startTimeIndex, int endTimeIndex, int timeInterval) {
+
+        timetable.getColumns().removeAll(createdColumns);
+        createdColumns.clear();
+
+        for (int i = startTimeIndex; i < endTimeIndex; i++) {
+            for (int j = 0; j < 60; j += timeInterval) {
+                int endMinute = j + timeInterval;
+
+                if (i == startTimeIndex && endMinute >= 60) {
+                    // Skip creating columns beyond the specified end time
+                    continue;
+                }
+
+                // Calculate start and end time
+                String startTime = String.format("%02d:%02d", i, j);
+                String endTime = String.format("%02d:%02d", i + (endMinute / 60), endMinute % 60);
+
+                // Create column header
+                String columnHeader = startTime + " - " + endTime;
+
+                // Create and add TableColumn
+                TableColumn<SchoolDay, String> column = new TableColumn<>(columnHeader);
+                timetable.getColumns().add(column);
+                createdColumns.add(column);
+
+                // Add the column header to the ComboBox items
+                System.out.println(columnHeader + "is added into drop down");
+            }
+        }
+    }
+
+
+    void initializeTimetableClassFromDatabase() {
+        // Fetch timetable time  from the database
+        String query = "SELECT * FROM TimetableClasses WHERE UserID = ?";
+
+        try (Connection connection = JDBCConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setInt(1, userID);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Process the resultSet and populate your timetable
+            while (resultSet.next()) {
+                int rowIndex = resultSet.getInt("RowIndex");
+                int columnIndex = resultSet.getInt("ColumnIndex");
+                int courseId = resultSet.getInt("CourseID");
+
+                // Create an object to represent the timetable class data
+                TimetableClassData timetableClassData = new TimetableClassData(courseId, rowIndex, columnIndex);
+
+                // Add the object to the list
+                timetableClassDataList.add(timetableClassData);
+
+                System.out.println("initial SQL: Course ID" + courseId);
+                System.out.println("initial SQL: Row index" + rowIndex);
+                System.out.println("initial SQL: Column index" + columnIndex);
+            }
+            // Use setTimetableClassData method to populate the timetable
+            setTimetableClassData(timetableClassDataList);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Define a method to set timetable class data based on the retrieved information
+    void setTimetableClassData(List<TimetableClassData> timetableClassDataList) {
+        // Iterate through the list and populate the timetable with the retrieved data
+        for (TimetableClassData timetableClassData : timetableClassDataList) {
+            int rowIndex = timetableClassData.getRowIndex();
+            int columnIndex = timetableClassData.getColumnIndex();
+            int courseId = timetableClassData.getCourseId();
+
+            // Insert the data into the corresponding cell in the timetable
+            // Implement this method based on your requirements
+//            updateTimetableCell(rowIndex, columnIndex, /* Add other parameters as needed */);
+
+            String[] daysOfWeek = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+            String day = daysOfWeek[rowIndex];
+
+            String classCode = getCourseCodeFromDatabase(courseId);
+
+//            String day = cbClassInfoActualDay.getValue();
+//            CourseInfo selectedCourseInfo = cbClassInfoClassCode.getValue();
+//            String classCode = selectedCourseInfo.getCourseCode();
+
+            SchoolDay newClassInfo = new SchoolDay(day, classCode);
+
+            // Check if the column index is within the valid range
+            if (columnIndex >= 0 && columnIndex < timetable.getColumns().size()) {
+
+                TableColumn<SchoolDay, String> tableColumn = (TableColumn<SchoolDay, String>) timetable.getColumns().get(columnIndex);
+
+                tableColumn.setCellValueFactory(data -> {
+                    if (data.getValue().equals(newClassInfo) && data.getTableView().getColumns().indexOf(data.getTableColumn()) == columnIndex) {
+                        // Return the new value for the specified cell
+                        return new SimpleStringProperty(newClassInfo.getClassCode());
+                    } else {
+                        // Return the existing value for other cells
+                        return new SimpleStringProperty(data.getValue().getClassCode());
+                    }
+                });
+
+                // Set the cell factory to customize the rendering
+                tableColumn.setCellFactory(column -> new TableCell<SchoolDay, String>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        int currentRowIndex = getIndex();
+                        int currentColumnIndex = getTableView().getColumns().indexOf(getTableColumn());
+
+                        if (currentRowIndex == rowIndex && currentColumnIndex == columnIndex) {
+                            setText(newClassInfo.getClassCode());
+                        } else {
+                            setText(item);
+                        }
+                    }
+                });
+
+                // Refresh the TableView to reflect the changes
+                timetable.refresh();
+            } else {
+                System.out.println("Invalid column index: " + columnIndex);
+            }
+        }
+
+        // Optionally, refresh the timetable view
+        timetable.refresh();
+    }
+
+    private String getCourseCodeFromDatabase(int courseId) {
+        String courseCode = null;
+
+        try (Connection connection = JDBCConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT CourseCode FROM Courses WHERE CourseID = ?")) {
+
+            preparedStatement.setInt(1, courseId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                courseCode = resultSet.getString("courseCode");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return courseCode;
+    }
+
     @FXML
     void DashboardBtnOnClicked(ActionEvent event) throws IOException {
-        loader = new FXMLLoader(getClass().getResource("StudentHomePage.fxml"));
+        loader = new FXMLLoader(getClass().getResource("TeacherHomePage.fxml"));
         root = loader.load();
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -243,6 +573,7 @@ public class HomeController {
         HomeController homeController = loader.getController();
         System.out.println("Dashboard is clicked");
         homeController.initData(userID, StudentTeacherID,  fullName, role);
+        homeController.fetchTimetableData();
 
         System.out.println("Dashboard initData done");
         homeController.initialize();
@@ -250,32 +581,16 @@ public class HomeController {
         System.out.println("Initialize");
 
         System.out.println(role);
+
     }
 
     @FXML
     void CustomizeTimeTableBtnOnClicked(ActionEvent event) throws IOException {
-        // Load the new FXML file
-        if ("Student".equals(role)) {
-            CourseUpdatesBtn1.setVisible(false);
-        }
+//        // Load the new FXML file
+//        if ("Student".equals(role)) {
+//            CourseUpdatesBtn1.setVisible(false);
+//        }
         loader = new FXMLLoader(getClass().getResource("CustomizePage.fxml"));
-        root = loader.load();
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-
-        // Pass any necessary data to the HomeController
-        HomeController homeController = loader.getController();
-        homeController.initData(userID, StudentTeacherID,  fullName, role);
-    }
-
-    @FXML
-    void EditTimeTableBtnOnClicked(ActionEvent event) throws IOException {
-//        loader = new FXMLLoader(getClass().getResource("EditTimeTable.fxml"));{
-//        loader = new FXMLLoader(getClass().getResource("manualPage.fxml"));
-        loader = new FXMLLoader(getClass().getResource("EditTimeTable.fxml"));
-//        loader = new FXMLLoader(getClass().getResource("manualPage.fxml"));
         root = loader.load();
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -285,8 +600,57 @@ public class HomeController {
         // Pass any necessary data to the HomeController
 //        HomeController homeController = loader.getController();
 //        homeController.initData(userID, StudentTeacherID,  fullName, role);
+        CustomizePageController customizePageController = loader.getController();
+        customizePageController.setUserData(userID, StudentTeacherID, fullName, role);
 
-        System.out.println(role);
+//        customizePageController.initializeNotExistsCourseInfo();
+//        customizePageController.initializeCourseInfo();
+    }
+
+//    @FXML
+//    void EditTimeTableBtnOnClicked(ActionEvent event) throws IOException {
+////        loader = new FXMLLoader(getClass().getResource("EditTimeTable.fxml"));{
+////        loader = new FXMLLoader(getClass().getResource("manualPage.fxml"));
+//        loader = new FXMLLoader(getClass().getResource("EditTimeTable.fxml"));
+////        loader = new FXMLLoader(getClass().getResource("manualPage.fxml"));
+//        root = loader.load();
+//        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//        scene = new Scene(root);
+//        stage.setScene(scene);
+//        stage.show();
+//
+//        // Pass any necessary data to the HomeController
+////        HomeController homeController = loader.getController();
+////        homeController.initData(userID, StudentTeacherID,  fullName, role);
+//
+//        System.out.println(role);
+//    }
+
+    @FXML
+    void EditTimeTableBtnOnClicked(ActionEvent event) throws IOException {
+        // Load the new FXML file
+        loader = new FXMLLoader(getClass().getResource("EditTimeTable.fxml"));
+        root = loader.load();
+
+        // Pass any necessary data to the EditTimeTableController using the set method
+        EditTimeTableController editTimeTableController = loader.getController();
+        editTimeTableController.setUserData(userID, StudentTeacherID, fullName, role);
+        // Now initialize course names
+        editTimeTableController.initializeNotExistsCourseInfo();
+        editTimeTableController.initializeCourseInfo();
+        editTimeTableController.initializeTimetableDayFromDatabase();
+        editTimeTableController.initializeTimetableTimeFromDatabase();
+        editTimeTableController.initializeTimetableClassFromDatabase();
+//        editTimeTableController.loadTimetableDayFromDatabase();
+        System.out.println("EditTimeTableBtn is clicked");
+        System.out.println("User ID:" + userID);
+        System.out.println("Name:" + fullName);
+        System.out.println("Role:" + role);
+
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML

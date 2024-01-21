@@ -95,24 +95,52 @@ CREATE TABLE Classes (
 --     FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
 -- );
 
-CREATE TABLE Timetable (
+-- CREATE TABLE Timetable (
+--     TimetableID INT AUTO_INCREMENT PRIMARY KEY,
+--     UserID INT,
+--     -- ClassID INT,
+--     -- DayOfWeek VARCHAR(15),
+--     -- You might use an ENUM for days of the week
+--     -- Other timetable details
+--     -- FOREIGN KEY (ClassID) REFERENCES Classes(ClassID)
+--     FOREIGN KEY (UserID) REFERENCES Users(UserID)
+-- );
+
+CREATE TABLE TimetableClasses (
     TimetableID INT AUTO_INCREMENT PRIMARY KEY,
     UserID INT,
-    -- ClassID INT,
-    -- DayOfWeek VARCHAR(15),
-    -- You might use an ENUM for days of the week
-    -- Other timetable details
-    -- FOREIGN KEY (ClassID) REFERENCES Classes(ClassID)
+    CourseID INT,
+    RowIndex INT,
+    ColumnIndex INT,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
+    -- PRIMARY KEY (UserID, CourseID, RowIndex, ColumnIndex)
+);
+
+CREATE TABLE TimetableDays (
+    TimetableDayID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT,
+    StartDay INT,
+    EndDay INT,
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
 
-CREATE TABLE TimetableClasses (
-    TimetableID INT,
-    ClassID INT,
-    FOREIGN KEY (TimetableID) REFERENCES Timetable(TimetableID),
-    FOREIGN KEY (ClassID) REFERENCES Classes(ClassID),
-    PRIMARY KEY (TimetableID, ClassID)
+CREATE TABLE TimetableTime (
+    TimetableTimeID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT,
+    StartTime INT,
+    EndTime INT,
+    IntervalTime INT,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
+
+-- CREATE TABLE TimetableClasses (
+--     TimetableID INT,
+--     ClassID INT,
+--     FOREIGN KEY (TimetableID) REFERENCES Timetable(TimetableID),
+--     FOREIGN KEY (ClassID) REFERENCES Classes(ClassID),
+--     PRIMARY KEY (TimetableID, ClassID)
+-- );
 
 CREATE TABLE DueDates (
     DueDateID INT AUTO_INCREMENT PRIMARY KEY,
