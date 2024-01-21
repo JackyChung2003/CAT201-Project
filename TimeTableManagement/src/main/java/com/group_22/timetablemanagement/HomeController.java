@@ -258,9 +258,16 @@ public class HomeController {
         stage.setScene(scene);
         stage.show();
 
-        // Pass any necessary data to the HomeController
-        HomeController homeController = loader.getController();
-        homeController.initData(userID, StudentTeacherID,  fullName, role);
+        // Pass any necessary data to the EditTimeTableController using the set method
+        CustomizeController customizeController = loader.getController();
+        customizeController.setUserData(userID, StudentTeacherID, fullName, role);
+
+        // Now initialize course names
+
+//        customizeController.initializeCourseInfo();
+        System.out.println("User ID:" + userID);
+        System.out.println("Name:" + fullName);
+        System.out.println("Role:" + role);
     }
 
     @FXML
