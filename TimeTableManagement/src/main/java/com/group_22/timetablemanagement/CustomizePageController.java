@@ -1,5 +1,6 @@
 package com.group_22.timetablemanagement;
 
+import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -21,6 +22,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Pair;
@@ -219,8 +221,8 @@ public class CustomizePageController implements Initializable {
 
         // Disable update button if any text fields inside ClassInfo is empty
         BooleanBinding areFieldsClassInfoEmpty = cbClassInfoClassCode.valueProperty().isNull()
-                .or(StudyTimeDropDownBtn.valueProperty().isNull())
-                .or(cbClassInfoActualDay.valueProperty().isNull());
+//                .or(StudyTimeDropDownBtn.valueProperty().isNull())
+                .or(colorPickerbtn1.valueProperty().isNull());
 
         btUpdateClassInfo.disableProperty().bind(areFieldsClassInfoEmpty);
 
@@ -1179,6 +1181,7 @@ public class CustomizePageController implements Initializable {
                     int currentRowIndex = getIndex();
                     int currentColumnIndex = getTableView().getColumns().indexOf(getTableColumn());
 
+
                     if (currentRowIndex == rowIndex && currentColumnIndex == columnIndex) {
                         Color cellColor = determineCellColor(newClassInfo.getClassCode(), colorPickerbtn1.getValue()); // Adjust this method
 //                        Color cellColor = colorPickerbtn1.getValue();
@@ -1216,17 +1219,127 @@ public class CustomizePageController implements Initializable {
 //        } else {
 //            return Color.GREEN; // or any other default color
 //        }
+
+        //working!
+//        if (containsIgnoreCase(classCodesToHandle, classCode)) {
+//            if (classCodeColorMap.containsKey(classCode)) {
+//                return classCodeColorMap.get(classCode);
+//            } else {
+//                // If the color is not set, set it to the provided value
+//                classCodeColorMap.put(classCode, value);
+//                return value;
+//            }
+//        } else {
+//            return Color.GREEN; // or any other default color
+//        }
+        System.out.println("Enter colour loop");
+//        if (containsIgnoreCase(classCodesToHandle, classCode)) {
+//            // Check if the color is already assigned for the class code
+//
+//            System.out.println("classCodeColorMap.containsKey(classCode)"+ classCodeColorMap.containsKey(classCode));
+//            System.out.println("classCodeColorMap.get(classCode)"+ classCodeColorMap.get(classCode));
+//            if (classCodeColorMap.containsKey(classCode) && classCodeColorMap.get(classCode) != null) {
+//
+//                // If the color is already assigned, ask for confirmation to overwrite
+//                boolean overwrite = askUserForConfirmation("Color for " + classCode + " is already set. Do you want to overwrite?", classCode);
+//                if (overwrite) {
+//                    // If the user confirms, overwrite the color
+//                    classCodeColorMap.put(classCode, value);
+//                } else {
+//                    // If not confirmed, return the existing color
+//                    return classCodeColorMap.get(classCode);
+//                }
+//            } else {
+//                // If not assigned or the value is null, set the color to the provided value
+//                classCodeColorMap.put(classCode, value);
+//            }
+//            return value;
+//        } else {
+//            return Color.GREEN; // or any other default color
+//        }
+        System.out.println("Enter colour loop");
         if (containsIgnoreCase(classCodesToHandle, classCode)) {
-            if (classCodeColorMap.containsKey(classCode)) {
-                return classCodeColorMap.get(classCode);
+            // Check if the color is already assigned for the class code
+
+            System.out.println("classCodeColorMap.containsKey(classCode)"+ classCodeColorMap.containsKey(classCode));
+            System.out.println("classCodeColorMap.get(classCode)"+ classCodeColorMap.get(classCode));
+            System.out.println(value);
+            if (classCodeColorMap.containsKey(classCode) && classCodeColorMap.get(classCode) != null) {
+                if(value != classCodeColorMap.get(classCode)){
+                    // If the color is already assigned, ask for confirmation to overwrite
+//                    boolean overwrite = askUserForConfirmation("Color for " + classCode + " is already set. Do you want to overwrite?", classCode);
+//                    if (overwrite) {
+//                        // If the user confirms, overwrite the color
+//                        classCodeColorMap.put(classCode, value);
+//                    } else {
+//                        // If not confirmed, return the existing color
+//                        return classCodeColorMap.get(classCode);
+//                    }
+                    return classCodeColorMap.get(classCode);
+//
+                }
+
+
             } else {
-                // If the color is not set, set it to the provided value
+                // If not assigned or the value is null, set the color to the provided value
                 classCodeColorMap.put(classCode, value);
-                return value;
+                saveColorMappingToDatabase(classCode, value);
             }
+            return value;
         } else {
             return Color.GREEN; // or any other default color
         }
+    }
+
+
+    private void saveColorMappingToDatabase(String classCode, Color value) {
+        try {
+
+            String updateQuery = "UPDATE TimetableColour SET Colour = ? WHERE Class_code=?";
+            String insertQuery = "INSERT INTO TimetableColour (Class_code, Colour) VALUES (?, ?)";
+
+            PreparedStatement preparedStatement;
+            try (Connection connection = JDBCConnection.getConnection()) {
+                if (doesRecordExist(classCode)) {
+                    // Update the existing record
+                    preparedStatement = connection.prepareStatement(updateQuery);
+                    preparedStatement.setString(1, String.valueOf(value));
+                    preparedStatement.setString(2, classCode);
+                } else {
+                    // Insert a new record
+                    preparedStatement = connection.prepareStatement(insertQuery);
+                    preparedStatement.setString(1, classCode);
+                    preparedStatement.setString(2, String.valueOf(value));
+                }
+
+                preparedStatement.executeUpdate();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle database exception
+        }
+    }
+
+    private boolean doesRecordExist(String classCode) {
+        String query = "SELECT COUNT(*) AS count FROM TimetableColour WHERE class_code = ? AND UserID = ?";
+        try (Connection connection = JDBCConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, classCode);
+            preparedStatement.setInt(2, userID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int count = resultSet.getInt("count");
+                return count > 0;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exceptions as needed
+        }
+        return false;
     }
 
     // Helper method to check if an array contains a specific value (case-insensitive)
@@ -1238,6 +1351,61 @@ public class CustomizePageController implements Initializable {
         }
         return false;
     }
+
+//    private boolean askUserForConfirmation(String message) {
+//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//        alert.setTitle("Confirmation");
+//        alert.setHeaderText(null);
+//        alert.setContentText(message);
+//
+//        // Set the modality to APPLICATION_MODAL to make the dialog block input to other windows
+//        alert.initModality(Modality.APPLICATION_MODAL);
+//
+//        // Add OK and Cancel buttons
+//        ButtonType buttonTypeOK = new ButtonType("OK");
+//        ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonType.CANCEL.getButtonData());
+//        alert.getButtonTypes().setAll(buttonTypeOK, buttonTypeCancel);
+//
+//        // Show the dialog and wait for the user's choice
+//        alert.showAndWait();
+//
+//        // Return true if the user clicks OK, false otherwise
+//        return alert.getResult() == buttonTypeOK;
+//    }
+//private boolean askUserForConfirmation(String message, String classCode) {
+//    boolean[] result = {false}; // Using an array to store the result
+//
+//    // Schedule the alert to be shown on the JavaFX Application Thread
+//    Platform.runLater(() -> {
+//        // Check if the color is already assigned for the class code
+//        boolean colorAlreadySet = classCodeColorMap.containsKey(classCode);
+//
+//        // Show the confirmation dialog only if the color is already set
+//        if (colorAlreadySet) {
+//            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//            alert.setTitle("Confirmation");
+//            alert.setHeaderText(null);
+//            alert.setContentText(message);
+//
+//            // Set the modality to APPLICATION_MODAL to make the dialog block input to other windows
+//            alert.initModality(Modality.APPLICATION_MODAL);
+//
+//            // Add OK and Cancel buttons
+//            ButtonType buttonTypeOK = new ButtonType("OK");
+//            ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonType.CANCEL.getButtonData());
+//            alert.getButtonTypes().setAll(buttonTypeOK, buttonTypeCancel);
+//
+//            // Show the dialog and wait for the user's choice
+//            alert.showAndWait();
+//
+//            // Set the result based on the user's choice
+//            result[0] = alert.getResult() == buttonTypeOK;
+//        }
+//    });
+//
+//    return result[0];
+//}
+
 
 
 //    private void setTimeTableClassColour(List<TimetableClassData> timetableClassDataList) {

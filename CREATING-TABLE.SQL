@@ -117,6 +117,23 @@ CREATE TABLE TimetableClasses (
     -- PRIMARY KEY (UserID, CourseID, RowIndex, ColumnIndex)
 );
 
+-- CREATE TABLE TimetableColour (
+--     TimetableColourID INT AUTO_INCREMENT PRIMARY KEY,
+--     UserID INT,
+--     Class_code VARCHAR(255),
+--     Color_red DOUBLE,
+--     Color_green DOUBLE,
+--     Color_blue DOUBLE,
+--     FOREIGN KEY (UserID) REFERENCES Users(UserID)
+-- );
+CREATE TABLE TimetableColour (
+    TimetableColourID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT,
+    Class_code VARCHAR(255),
+    Colour VARCHAR(255),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
 CREATE TABLE TimetableDays (
     TimetableDayID INT AUTO_INCREMENT PRIMARY KEY,
     UserID INT,

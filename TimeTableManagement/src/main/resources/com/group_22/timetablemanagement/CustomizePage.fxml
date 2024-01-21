@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.ColorPicker?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.control.Spinner?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.text.Text?>
+
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group_22.timetablemanagement.CustomizePageController">
     <left>
         <VBox prefHeight="480.0" prefWidth="150.0" style="-fx-background-color: #086464;" BorderPane.alignment="CENTER">
@@ -40,8 +40,6 @@
                   <Font name="System Bold" size="12.0" />
                </font></Button>
                 <Button fx:id="EditTimeTableBtn" layoutX="10.0" layoutY="161.0" mnemonicParsing="false" onAction="#EditTimeTableBtnOnClicked" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #0a8282; -fx-border-width: 0px 0px 2px 0px;" text="Edit Time Table" />
-                <Button fx:id="ModifyDueDatesBtn" layoutX="10.0" layoutY="212.0" mnemonicParsing="false" onAction="#ModifyDueDatesBtnOnClicked" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #0a8282; -fx-border-width: 0px 0px 2px 0px;" text="Modify Due Dates" />
-                <Button fx:id="EditPersonalBtn" layoutX="10.0" layoutY="262.0" mnemonicParsing="false" onAction="#EditPersonalBtnOnClicked" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #0a8282; -fx-border-width: 0px 0px 2px 0px;" text="Edit personal information" />
                 <Button fx:id="CourseUpdatesBtn1" layoutX="10.0" layoutY="327.0" mnemonicParsing="false" onAction="#CourseUpdatesBtn1OnClicked" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #0a8282; -fx-border-width: 0px 0px 2px 0px;" text="Course Updates" />
                 <Button fx:id="SignOutBtn" alignment="CENTER" contentDisplay="TOP" layoutX="10.0" layoutY="312.0" mnemonicParsing="false" onAction="#SignOutBtnOnClicked" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #0a8282; -fx-border-width: 2px 0px;" text="Log Out">    <VBox.margin>
                         <Insets top="80.0" />
@@ -79,7 +77,7 @@
                 </SplitPane>
                 <Accordion GridPane.rowIndex="2">
                     <panes>
-                        <TitledPane animated="false" text="MY SCHOOL DAY STARTS" textFill="#014421">
+                        <TitledPane animated="false" text="Modify School Days" textFill="#014421">
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="718.0">
                                     <children>
@@ -92,7 +90,7 @@
                                 </AnchorPane>
                             </content>
                         </TitledPane>
-                        <TitledPane animated="false" text="MY STUDY TIME STARTS" textFill="#014421">
+                        <TitledPane animated="false" text="Modify Study Times" textFill="#014421">
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                     <children>
@@ -112,18 +110,18 @@
                                 </AnchorPane>
                             </content>
                         </TitledPane>
-                        <TitledPane animated="false" layoutX="10.0" layoutY="66.0" text="MY CLASS INFO" textFill="#014421">
+                        <TitledPane animated="false" layoutX="10.0" layoutY="66.0" text="Change Class Colour Theme" textFill="#014421">
                             <content>
                                 <AnchorPane fx:id="anchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                     <children>
                                         <Button fx:id="btUpdateClassInfo" layoutX="447.0" layoutY="61.0" mnemonicParsing="false" onAction="#updateClassInfo" prefWidth="60.0" style="-fx-background-color: #014421;" text="Update" textFill="WHITE" AnchorPane.rightAnchor="60.200000000000045" />
-                                        <Label layoutX="14.0" layoutY="28.0" text="CLASS" textFill="#014421" />
-                                        <Label layoutX="17.0" layoutY="69.0" text="TIME" textFill="#014421" />
-                                        <Label layoutX="21.0" layoutY="110.0" text="ON" textFill="#014421" />
-                                        <ComboBox fx:id="cbClassInfoActualDay" layoutX="57.0" layoutY="105.0" prefWidth="150.0" style="-fx-border-color: #33a4a9;" />
-                                        <ComboBox fx:id="StudyTimeDropDownBtn" layoutX="57.0" layoutY="64.0" onAction="#onClassStartDropDownClicked" prefWidth="150.0" style="-fx-border-color: #33a4a9;" />
-                                        <ComboBox fx:id="cbClassInfoClassCode" layoutX="57.0" layoutY="23.0" prefWidth="150.0" style="-fx-border-color: #33a4a9;" />
-                                        <ColorPicker fx:id = "colorPickerbtn1" layoutX="253.0" layoutY="64.0" prefHeight="27.0" prefWidth="149.0" />
+                                        <Label layoutX="17.0" layoutY="69.0" text="CLASS" textFill="#014421" />
+                                        <Label layoutX="17.0" layoutY="69.0" text="TIME" textFill="#014421" visible="false" />
+                                        <Label layoutX="21.0" layoutY="110.0" text="ON" textFill="#014421" visible="false" />
+                                        <ComboBox fx:id="cbClassInfoActualDay" layoutX="57.0" layoutY="105.0" prefWidth="150.0" style="-fx-border-color: #33a4a9;" visible="false" />
+                                        <ComboBox fx:id="StudyTimeDropDownBtn" layoutX="57.0" layoutY="64.0" onAction="#onClassStartDropDownClicked" prefWidth="150.0" style="-fx-border-color: #33a4a9;" visible="false" />
+                                        <ComboBox fx:id="cbClassInfoClassCode" layoutX="60.0" layoutY="64.0" prefWidth="150.0" style="-fx-border-color: #33a4a9;" />
+                                        <ColorPicker fx:id="colorPickerbtn1" layoutX="253.0" layoutY="64.0" prefHeight="27.0" prefWidth="149.0" />
                                     </children>
                                 </AnchorPane>
                             </content>

@@ -6,12 +6,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 
@@ -440,7 +445,18 @@ public class HomeController {
 
     void initializeTimetableClassFromDatabase() {
         // Fetch timetable time  from the database
-        String query = "SELECT * FROM TimetableClasses WHERE UserID = ?";
+//        String query = "SELECT * FROM TimetableClasses WHERE UserID = ?";
+//        String query = "SELECT TC.*, C.CourseCode, TCOLOR.ColorValue " +
+//                "FROM TimetableClasses TC " +
+//                "JOIN Courses C ON TC.CourseID = C.CourseID " +
+//                "LEFT JOIN TimetableColour TCOLOR ON TC.CourseID = TCOLOR.CourseID " +
+//                "WHERE TC.UserID = ?";
+
+        String query = "SELECT TC.*, C.CourseCode, TCOLOR.Colour " +
+                "FROM TimetableClasses TC " +
+                "JOIN Courses C ON TC.CourseID = C.CourseID " +
+                "LEFT JOIN TimetableColour TCOLOR ON C.CourseCode = TCOLOR.Class_code AND TCOLOR.UserID = TC.UserID " +
+                "WHERE TC.UserID = ?";
 
         try (Connection connection = JDBCConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -449,14 +465,60 @@ public class HomeController {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
+//            // Process the resultSet and populate your timetable
+//            while (resultSet.next()) {
+//                int rowIndex = resultSet.getInt("RowIndex");
+//                int columnIndex = resultSet.getInt("ColumnIndex");
+//                int courseId = resultSet.getInt("CourseID");
+//                String courseCode = resultSet.getString("CourseCode");
+//                Color colour = Color.valueOf(resultSet.getString("Colour"));
+//
+//
+//                TimetableClassData timetableClassData = new TimetableClassData(courseId, rowIndex, columnIndex, colour);
+//
+//                // Add the object to the list
+//                timetableClassDataList.add(timetableClassData);
+//
+//                System.out.println("initial SQL: Course ID" + courseId);
+//                System.out.println("initial SQL: Row index" + rowIndex);
+//                System.out.println("initial SQL: Column index" + columnIndex);
+//            }
+//            // Use setTimetableClassData method to populate the timetable
+//            setTimetableClassData(timetableClassDataList);
+
+            // Check if the resultSet has any data
+            if (!resultSet.next()) {
+                System.out.println("No data found in the database for the specified user.");
+                return;
+            }
+
             // Process the resultSet and populate your timetable
-            while (resultSet.next()) {
+            do {
                 int rowIndex = resultSet.getInt("RowIndex");
                 int columnIndex = resultSet.getInt("ColumnIndex");
                 int courseId = resultSet.getInt("CourseID");
+                String courseCode = resultSet.getString("CourseCode");
+//                Color colour = Color.valueOf(resultSet.getString("Colour"));
+                String colorValue = resultSet.getString("Colour");
+                Color colour;
 
-                // Create an object to represent the timetable class data
-                TimetableClassData timetableClassData = new TimetableClassData(courseId, rowIndex, columnIndex);
+                if (colorValue != null && !colorValue.isEmpty()) {
+                    try {
+                        colour = Color.valueOf(colorValue);
+                    } catch (IllegalArgumentException e) {
+                        System.err.println("Invalid color value in the database: " + colorValue);
+                        // Set a default color or handle the situation as needed
+                        colour = Color.LIGHTYELLOW; // Replace with your default color
+                    }
+                } else {
+                    System.err.println("Color value is null or empty in the database.");
+                    // Set a default color or handle the situation as needed
+                    colour = Color.LIGHTYELLOW; // Replace with your default color
+                }
+
+                TimetableClassData timetableClassData = new TimetableClassData(courseId, rowIndex, columnIndex, colour);
+
+//                TimetableClassData timetableClassData = new TimetableClassData(courseId, rowIndex, columnIndex, colour);
 
                 // Add the object to the list
                 timetableClassDataList.add(timetableClassData);
@@ -464,7 +526,8 @@ public class HomeController {
                 System.out.println("initial SQL: Course ID" + courseId);
                 System.out.println("initial SQL: Row index" + rowIndex);
                 System.out.println("initial SQL: Column index" + columnIndex);
-            }
+            } while (resultSet.next());
+
             // Use setTimetableClassData method to populate the timetable
             setTimetableClassData(timetableClassDataList);
 
@@ -480,6 +543,7 @@ public class HomeController {
             int rowIndex = timetableClassData.getRowIndex();
             int columnIndex = timetableClassData.getColumnIndex();
             int courseId = timetableClassData.getCourseId();
+            Color color = timetableClassData.getColor();
 
             // Insert the data into the corresponding cell in the timetable
             // Implement this method based on your requirements
@@ -512,6 +576,22 @@ public class HomeController {
                 });
 
                 // Set the cell factory to customize the rendering
+//                tableColumn.setCellFactory(column -> new TableCell<SchoolDay, String>() {
+//                    @Override
+//                    protected void updateItem(String item, boolean empty) {
+//                        super.updateItem(item, empty);
+//
+//                        int currentRowIndex = getIndex();
+//                        int currentColumnIndex = getTableView().getColumns().indexOf(getTableColumn());
+//
+//                        if (currentRowIndex == rowIndex && currentColumnIndex == columnIndex) {
+//                            setText(newClassInfo.getClassCode());
+//                        } else {
+//                            setText(item);
+//                        }
+//                    }
+//                });
+
                 tableColumn.setCellFactory(column -> new TableCell<SchoolDay, String>() {
                     @Override
                     protected void updateItem(String item, boolean empty) {
@@ -522,8 +602,11 @@ public class HomeController {
 
                         if (currentRowIndex == rowIndex && currentColumnIndex == columnIndex) {
                             setText(newClassInfo.getClassCode());
+                            // Set the cell color based on the color retrieved from the database
+                            setBackground(empty ? null : new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
                         } else {
                             setText(item);
+                            setBackground(null);
                         }
                     }
                 });
