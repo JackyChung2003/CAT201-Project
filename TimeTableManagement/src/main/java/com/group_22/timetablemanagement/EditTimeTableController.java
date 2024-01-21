@@ -8,11 +8,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
@@ -408,6 +413,72 @@ public class EditTimeTableController implements Initializable {
     }
 
     // Define a method to set timetable class data based on the retrieved information
+//    void setTimetableClassData(List<TimetableClassData> timetableClassDataList) {
+//        // Iterate through the list and populate the timetable with the retrieved data
+//        for (TimetableClassData timetableClassData : timetableClassDataList) {
+//            int rowIndex = timetableClassData.getRowIndex();
+//            int columnIndex = timetableClassData.getColumnIndex();
+//            int courseId = timetableClassData.getCourseId();
+//
+//            // Insert the data into the corresponding cell in the timetable
+//            // Implement this method based on your requirements
+////            updateTimetableCell(rowIndex, columnIndex, /* Add other parameters as needed */);
+//
+//            String[] daysOfWeek = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+//            String day = daysOfWeek[rowIndex];
+//
+//            String classCode = getCourseCodeFromDatabase(courseId);
+//
+////            String day = cbClassInfoActualDay.getValue();
+////            CourseInfo selectedCourseInfo = cbClassInfoClassCode.getValue();
+////            String classCode = selectedCourseInfo.getCourseCode();
+//
+//            SchoolDay newClassInfo = new SchoolDay(day, classCode);
+//
+//            // Check if the column index is within the valid range
+//            if (columnIndex >= 0 && columnIndex < timetable.getColumns().size()) {
+//
+//                TableColumn<SchoolDay, String> tableColumn = (TableColumn<SchoolDay, String>) timetable.getColumns().get(columnIndex);
+//
+//                tableColumn.setCellValueFactory(data -> {
+//                    if (data.getValue().equals(newClassInfo) && data.getTableView().getColumns().indexOf(data.getTableColumn()) == columnIndex) {
+//                        // Return the new value for the specified cell
+//                        return new SimpleStringProperty(newClassInfo.getClassCode());
+//                    } else {
+//                        // Return the existing value for other cells
+//                        return new SimpleStringProperty(data.getValue().getClassCode());
+//                    }
+//                });
+//
+//                // Set the cell factory to customize the rendering
+//                tableColumn.setCellFactory(column -> new TableCell<SchoolDay, String>() {
+//                    @Override
+//                    protected void updateItem(String item, boolean empty) {
+//                        super.updateItem(item, empty);
+//
+//                        int currentRowIndex = getIndex();
+//                        int currentColumnIndex = getTableView().getColumns().indexOf(getTableColumn());
+//
+//                        if (currentRowIndex == rowIndex && currentColumnIndex == columnIndex) {
+//                            setText(newClassInfo.getClassCode());
+//                        } else {
+//                            setText(item);
+//                        }
+//                    }
+//                });
+//
+//                // Refresh the TableView to reflect the changes
+//                timetable.refresh();
+//            } else {
+//                System.out.println("Invalid column index: " + columnIndex);
+//            }
+//        }
+//
+//        // Optionally, refresh the timetable view
+//        timetable.refresh();
+//    }
+
+    //Testing
     void setTimetableClassData(List<TimetableClassData> timetableClassDataList) {
         // Iterate through the list and populate the timetable with the retrieved data
         for (TimetableClassData timetableClassData : timetableClassDataList) {
@@ -415,24 +486,15 @@ public class EditTimeTableController implements Initializable {
             int columnIndex = timetableClassData.getColumnIndex();
             int courseId = timetableClassData.getCourseId();
 
-            // Insert the data into the corresponding cell in the timetable
-            // Implement this method based on your requirements
-//            updateTimetableCell(rowIndex, columnIndex, /* Add other parameters as needed */);
-
-            String[] daysOfWeek = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+            String[] daysOfWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
             String day = daysOfWeek[rowIndex];
 
             String classCode = getCourseCodeFromDatabase(courseId);
-
-//            String day = cbClassInfoActualDay.getValue();
-//            CourseInfo selectedCourseInfo = cbClassInfoClassCode.getValue();
-//            String classCode = selectedCourseInfo.getCourseCode();
 
             SchoolDay newClassInfo = new SchoolDay(day, classCode);
 
             // Check if the column index is within the valid range
             if (columnIndex >= 0 && columnIndex < timetable.getColumns().size()) {
-
                 TableColumn<SchoolDay, String> tableColumn = (TableColumn<SchoolDay, String>) timetable.getColumns().get(columnIndex);
 
                 tableColumn.setCellValueFactory(data -> {
@@ -455,9 +517,12 @@ public class EditTimeTableController implements Initializable {
                         int currentColumnIndex = getTableView().getColumns().indexOf(getTableColumn());
 
                         if (currentRowIndex == rowIndex && currentColumnIndex == columnIndex) {
+                            Color cellColor = determineCellColor(newClassInfo.getClassCode()); // Adjust this method
                             setText(newClassInfo.getClassCode());
+                            setBackground(empty ? null : new Background(new BackgroundFill(cellColor, CornerRadii.EMPTY, Insets.EMPTY)));
                         } else {
                             setText(item);
+                            setBackground(null);
                         }
                     }
                 });
@@ -473,7 +538,19 @@ public class EditTimeTableController implements Initializable {
         timetable.refresh();
     }
 
-    private String getCourseCodeFromDatabase(int courseId) {
+    // Adjust this method to determine the color based on the class code or any other condition
+    private Color determineCellColor(String classCode) {
+        // Implement your logic to determine the color based on the class code
+        // Example: Check if classCode is "YourDesiredClassCode" and return Color.RED, else return a default color
+        if ("CMT221".equals(classCode)) {
+            return Color.RED;
+        } else {
+            return Color.GREEN; // or any other default color
+        }
+    }
+
+
+        private String getCourseCodeFromDatabase(int courseId) {
         String courseCode = null;
 
         try (Connection connection = JDBCConnection.getConnection();
@@ -1217,12 +1294,28 @@ public class EditTimeTableController implements Initializable {
         System.out.println(role);
     }
 
+//    @FXML
+//    void CustomizeTimeTableBtnOnClicked(ActionEvent event) throws IOException {
+//        // Load the new FXML file
+//        if ("Student".equals(role)) {
+//            CourseUpdatesBtn1.setVisible(false);
+//        }
+//        loader = new FXMLLoader(getClass().getResource("CustomizePage.fxml"));
+//        root = loader.load();
+//        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//        scene = new Scene(root);
+//        stage.setScene(scene);
+//        stage.show();
+//
+//        // Pass any necessary data to the HomeController
+//        HomeController homeController = loader.getController();
+//        homeController.initData(userID, StudentTeacherID, fullName, role);
+//
+//        System.out.println(role);
+//    }
+
     @FXML
     void CustomizeTimeTableBtnOnClicked(ActionEvent event) throws IOException {
-        // Load the new FXML file
-        if ("Student".equals(role)) {
-            CourseUpdatesBtn1.setVisible(false);
-        }
         loader = new FXMLLoader(getClass().getResource("CustomizePage.fxml"));
         root = loader.load();
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -1230,11 +1323,8 @@ public class EditTimeTableController implements Initializable {
         stage.setScene(scene);
         stage.show();
 
-        // Pass any necessary data to the HomeController
-        HomeController homeController = loader.getController();
-        homeController.initData(userID, StudentTeacherID, fullName, role);
-
-        System.out.println(role);
+        CustomizePageController customizePageController = loader.getController();
+        customizePageController.setUserData(userID, StudentTeacherID, fullName, role);
     }
 
     @FXML

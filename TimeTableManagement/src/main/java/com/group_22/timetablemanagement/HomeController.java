@@ -603,6 +603,11 @@ public class HomeController {
         CustomizePageController customizePageController = loader.getController();
         customizePageController.setUserData(userID, StudentTeacherID, fullName, role);
 
+
+        customizePageController.initializeCourseInfo();
+        customizePageController.initializeTimetableDayFromDatabase();
+        customizePageController.initializeTimetableTimeFromDatabase();
+        customizePageController.initializeTimetableClassFromDatabase();
 //        customizePageController.initializeNotExistsCourseInfo();
 //        customizePageController.initializeCourseInfo();
     }
