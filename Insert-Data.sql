@@ -43,3 +43,4 @@ INSERT INTO StudentCourses (StudentID, CourseID) VALUES ((SELECT StudentID FROM 
 INSERT INTO TeachersCourses (TeacherID, CourseID) VALUES ((SELECT TeacherID FROM Teachers WHERE UserID = 4), (SELECT CourseID FROM Courses WHERE CourseCode = 'CAT201'));
 INSERT INTO TeachersCourses (TeacherID, CourseID) VALUES ((SELECT TeacherID FROM Teachers WHERE UserID = 4), (SELECT CourseID FROM Courses WHERE CourseCode = 'CMT221'));
 INSERT INTO TeachersCourses (TeacherID, CourseID) VALUES ((SELECT TeacherID FROM Teachers WHERE UserID = 5), (SELECT CourseID FROM Courses WHERE CourseCode = 'CMT221'));
+
